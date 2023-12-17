@@ -15,18 +15,17 @@ import javax.inject.Inject
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "on_boarding_pref")
 
-//class Preferences @Inject constructor(private val dataStore: DataStore<Preferences>) {
 class Preferences (context: Context) {
 
-    private object Keys {
-        val onBoarding = booleanPreferencesKey(name = "on_boarding_completed")
+    private object PreferencesKey {
+        val onBoardingKey = booleanPreferencesKey(name = "on_boarding_completed")
     }
 
     private val dataStore = context.dataStore
 
     suspend fun saveOnBoardingState(completed: Boolean) {
         dataStore.edit { preferences ->
-            preferences[Keys.onBoarding] = completed
+            preferences[PreferencesKey.onBoardingKey] = completed
         }
     }
 
@@ -40,7 +39,7 @@ class Preferences (context: Context) {
                 }
             }
             .map { preferences ->
-                val onBoardingState = preferences[Keys.onBoarding] ?: false
+                val onBoardingState = preferences[PreferencesKey.onBoardingKey] ?: false
                 onBoardingState
             }
     }

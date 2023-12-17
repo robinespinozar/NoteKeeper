@@ -89,6 +89,7 @@ val ColorScheme.primary70: Color @Composable get() = md_theme_ref_primary70
 val ColorScheme.neutralVariant80: Color @Composable get() = md_theme_ref_neutralVariant80
 val ColorScheme.neutralVariant90: Color @Composable get() = md_theme_ref_neutralVariant90
 val ColorScheme.neutralVariant95: Color @Composable get() = md_theme_ref_neutralVariant95
+val ColorScheme.backgroundGradient: Brush @Composable get() = md_background_gradient
 val ColorScheme.primaryGradient: Brush @Composable get() = md_primary_gradient
 val ColorScheme.secondaryGradient: Brush @Composable get() = md_secondary_gradient
 

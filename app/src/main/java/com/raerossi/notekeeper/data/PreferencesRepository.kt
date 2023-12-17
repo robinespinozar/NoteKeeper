@@ -9,7 +9,5 @@ class PreferencesRepository @Inject constructor(private val prefs: Preferences) 
         prefs.saveOnBoardingState(completed)
     }
 
-    fun readOnBoardingState(): Flow<Boolean> {
-        return prefs.readOnBoardingState()
-    }
+    fun readOnBoardingState(): Flow<Boolean> = prefs.readOnBoardingState()
 }

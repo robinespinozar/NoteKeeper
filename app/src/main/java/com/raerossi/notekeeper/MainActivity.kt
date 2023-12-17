@@ -17,20 +17,12 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var splashViewModel: SplashViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        installSplashScreen().setKeepOnScreenCondition {
-            !splashViewModel.isReady.value
-        }
-
         setContent {
             NoteKeeperTheme {
-                val startScreen by splashViewModel.startDestination
-                NoteKeeperApp(startScreen)
+                NoteKeeperApp()
             }
         }
     }

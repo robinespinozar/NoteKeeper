@@ -79,6 +79,14 @@ val md_theme_ref_neutralVariant90 = Color(0xFFDEE5D9)
 val md_theme_ref_neutralVariant95 = Color(0xFFECF3E7)
 
 //Gradients
+val md_background_gradient = Brush.verticalGradient(
+    colors = listOf(
+        Color(0xFF13991D),
+        Color(0xFF4BCF42),
+        Color(0xFF13991D)
+    )
+)
+
 val md_primary_gradient = Brush.verticalGradient(
     colors = listOf(
         Color(0xFF42C93C),

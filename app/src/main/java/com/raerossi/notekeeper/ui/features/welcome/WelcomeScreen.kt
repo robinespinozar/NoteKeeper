@@ -30,6 +30,7 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.raerossi.notekeeper.ui.features.utils.GradientButton
 import com.raerossi.notekeeper.ui.features.utils.PagerIndicator
+import com.raerossi.notekeeper.ui.features.utils.SetSystemColors
 import com.raerossi.notekeeper.ui.features.utils.TitleAndDescription
 import com.raerossi.notekeeper.ui.features.utils.VerticalSpacer
 import com.raerossi.notekeeper.ui.theme.NoteKeeperTheme
@@ -46,6 +47,7 @@ fun WelcomeScreen(
     onLogInClick: () -> Unit,
     onRegistrationClick: () -> Unit
 ) {
+    SetSystemColors(colorStatusBar = Color(0xFFFFFFFF))
     val pages = listOf(OnBoardingPage.First, OnBoardingPage.Second, OnBoardingPage.Third)
     val pagerState = rememberPagerState()
 
