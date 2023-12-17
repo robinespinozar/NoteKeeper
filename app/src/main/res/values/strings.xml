@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">NoteKeeper</string>
+    <string name="first_onboarding_title">Get Organized</string>
+    <string name="first_onboarding_description">Organize your tasks, never forget anything and manage your time more effectively</string>
+    <string name="second_onboarding_title">Group Tasks</string>
+    <string name="second_onboarding_description">Organize your tasks by specific categories and maintain better order</string>
+    <string name="third_onboarding_title">Task Ally</string>
+    <string name="third_onboarding_description">Take your mobile everywhere with you and check your tasks whenever you want</string>
 </resources>
