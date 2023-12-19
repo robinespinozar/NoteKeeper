@@ -62,6 +62,9 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
 
+    //Material Icons Extender
+    implementation("androidx.compose.material:material-icons-extended-android:1.5.4")
+
     //Splash
     implementation("androidx.core:core-splashscreen:1.0.1")
 
@@ -73,6 +76,9 @@ dependencies {
 
     //StatusBar - Accompanist
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
+
+    //Live Data
+    implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
 
     // DataStore Preferences
     implementation("androidx.datastore:datastore-preferences:1.0.0")

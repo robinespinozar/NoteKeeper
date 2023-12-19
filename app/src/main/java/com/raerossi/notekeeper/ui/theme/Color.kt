@@ -68,11 +68,15 @@ val md_theme_dark_scrim = Color(0xFF000000)
 val seed = Color(0xFF55D64A)
 
 val md_title = Color(0xFF0C212C)
+val md_theme_light_topBarContainer =  Color(0xFFFCFCFC)
 
 //Refs
 val md_theme_ref_primary20 = Color(0xFF003A02)
+val md_theme_ref_primary30 = Color(0xFF005304)
+val md_theme_ref_primary50 = Color(0xFF008B0D)
 val md_theme_ref_primary70 = Color(0xFF41C43A)
 
+val md_theme_ref_neutral95 = Color(0xFFF1F1EB)
 val md_theme_ref_neutralVariant40 = Color(0xFF5A6057)
 val md_theme_ref_neutralVariant80 = Color(0xFFC2C9BD)
 val md_theme_ref_neutralVariant90 = Color(0xFFDEE5D9)

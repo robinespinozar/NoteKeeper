@@ -6,4 +6,7 @@
     <string name="second_onboarding_description">Organize your tasks by specific categories and maintain better order</string>
     <string name="third_onboarding_title">Task Ally</string>
     <string name="third_onboarding_description">Take your mobile everywhere with you and check your tasks whenever you want</string>
+    <string name="home">Home</string>
+    <string name="schedule">Schedule</string>
+    <string name="profile">Profile</string>
 </resources>

@@ -18,16 +18,12 @@ class SplashViewModel @Inject constructor(
     private val readOnBoardingStateUseCase: ReadOnBoardingStateUseCase
 ) : ViewModel() {
 
-    //private val _isReady: MutableState<Boolean> = mutableStateOf(true)
-    //val isReady: State<Boolean> = _isReady
-
     private val _onBoardingIsCompleted = MutableStateFlow(false)
     val onBoardingIsCompleted: StateFlow<Boolean> = _onBoardingIsCompleted
 
     init {
         viewModelScope.launch {
             _onBoardingIsCompleted.value = readOnBoardingStateUseCase().stateIn(viewModelScope).value
-            //_isReady.value = false
         }
     }
 }
