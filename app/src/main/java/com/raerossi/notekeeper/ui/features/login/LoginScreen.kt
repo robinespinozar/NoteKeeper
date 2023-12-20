@@ -1,9 +1,7 @@
 package com.raerossi.notekeeper.ui.features.login
 
-import android.widget.ImageButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
@@ -26,7 +23,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,7 +43,6 @@ import com.raerossi.notekeeper.ui.features.utils.GradientButton
 import com.raerossi.notekeeper.ui.features.utils.HorizontalSpacer
 import com.raerossi.notekeeper.ui.features.utils.InputField
 import com.raerossi.notekeeper.ui.features.utils.LinkButton
-import com.raerossi.notekeeper.ui.features.utils.ProgressTopBar
 import com.raerossi.notekeeper.ui.features.utils.VerticalSpacer
 import com.raerossi.notekeeper.ui.theme.NoteKeeperTheme
 import com.raerossi.notekeeper.ui.theme.generalSansFamily
@@ -58,12 +53,10 @@ fun LoginScreen(loginViewModel: LoginViewModel = hiltViewModel()) {
     val email by loginViewModel.email.observeAsState("")
     val password by loginViewModel.password.observeAsState("")
     val isLoginEnabled by loginViewModel.isLoginEnabled.observeAsState(false)
-    val progress by loginViewModel.progress.observeAsState(0.32f)
 
     LoginScreen(
         email = email,
         password = password,
-        progress = progress,
         isLoginEnabled = isLoginEnabled,
         onLoginChanged = { email, password -> loginViewModel.onLoginChanged(email, password) },
         onLoginClick = { loginViewModel.onLoginSelected() },
@@ -75,34 +68,44 @@ fun LoginScreen(loginViewModel: LoginViewModel = hiltViewModel()) {
 fun LoginScreen(
     email: String,
     password: String,
-    progress: Float,
     isLoginEnabled: Boolean,
     onLoginChanged: (String, String) -> Unit,
     onLoginClick: () -> Unit,
     onSignUpClick: () -> Unit
 ) {
-    Scaffold(
-        topBar = { ProgressTopBar(progress = progress, onBackClick = {}) }
-    ) { padding ->
-        Box(
-            Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .background(Color(0xFFFFFFFF))
-        ) {
-            LoginBody(
-                modifier = Modifier.align(Alignment.Center),
-                email = email,
-                password = password,
-                isLoginEnabled = isLoginEnabled,
-                onLoginChanged = { email, password -> onLoginChanged(email, password) },
-                onLoginSelected = { onLoginClick() }
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(Color(0xFFFFFFFF))
+    ) {
+        LoginHeader(modifier = Modifier.align(Alignment.TopCenter))
+        LoginBody(
+            modifier = Modifier.align(Alignment.Center),
+            email = email,
+            password = password,
+            isLoginEnabled = isLoginEnabled,
+            onLoginChanged = { email, password -> onLoginChanged(email, password) },
+            onLoginSelected = { onLoginClick() }
+        )
+        LoginFooter(
+            modifier = Modifier.align(Alignment.BottomCenter),
+            onSignUpClick = { onSignUpClick() }
+        )
+    }
+
+}
+
+@Composable
+fun LoginHeader(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .paint(
+                painterResource(id = R.drawable.bg_login_header),
+                contentScale = ContentScale.FillBounds
             )
-            LoginFooter(
-                modifier = Modifier.align(Alignment.BottomCenter),
-                onSignUpClick = { onSignUpClick() }
-            )
-        }
+            .padding(bottom = 8.dp)
+    ) {
     }
 }
 
@@ -292,7 +295,7 @@ fun LoginFooter(
         modifier = modifier
             .fillMaxWidth()
             .paint(
-                painterResource(id = R.drawable.bg_login),
+                painterResource(id = R.drawable.bg_login_footer),
                 contentScale = ContentScale.FillBounds
             )
             .padding(bottom = 8.dp)

@@ -22,8 +22,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             NoteKeeperTheme {
-                //NoteKeeperApp()
-                LoginScreen()
+                NoteKeeperApp()
+                //LoginScreen()
             }
         }
     }
