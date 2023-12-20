@@ -143,14 +143,14 @@ fun FinishButtons(
         ) {
             Column {
                 GradientButton(
-                    text = "Start Now",
+                    text = "Sign Up",
                     textColor = Color.White,
                     gradient = MaterialTheme.colorScheme.primaryGradient,
                     onClick = { onRegistrationClick() }
                 )
                 VerticalSpacer(16)
                 GradientButton(
-                    text = "Sign In",
+                    text = "Log In",
                     textColor = MaterialTheme.colorScheme.primary20,
                     gradient = MaterialTheme.colorScheme.secondaryGradient,
                     onClick = { onLogInClick() }

@@ -1,5 +1,6 @@
 package com.raerossi.notekeeper.ui.features.login
 
+import android.widget.ImageButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -57,13 +58,16 @@ fun LoginScreen(loginViewModel: LoginViewModel = hiltViewModel()) {
     val email by loginViewModel.email.observeAsState("")
     val password by loginViewModel.password.observeAsState("")
     val isLoginEnabled by loginViewModel.isLoginEnabled.observeAsState(false)
+    val progress by loginViewModel.progress.observeAsState(0.32f)
 
     LoginScreen(
         email = email,
         password = password,
+        progress = progress,
         isLoginEnabled = isLoginEnabled,
         onLoginChanged = { email, password -> loginViewModel.onLoginChanged(email, password) },
-        onLoginClick = { loginViewModel.onLoginSelected() }
+        onLoginClick = { loginViewModel.onLoginSelected() },
+        onSignUpClick = { }
     )
 }
 
@@ -71,12 +75,14 @@ fun LoginScreen(loginViewModel: LoginViewModel = hiltViewModel()) {
 fun LoginScreen(
     email: String,
     password: String,
+    progress: Float,
     isLoginEnabled: Boolean,
     onLoginChanged: (String, String) -> Unit,
-    onLoginClick: () -> Unit
+    onLoginClick: () -> Unit,
+    onSignUpClick: () -> Unit
 ) {
     Scaffold(
-        topBar = { ProgressTopBar(progress = 0.4f, onBackClick = {}) }
+        topBar = { ProgressTopBar(progress = progress, onBackClick = {}) }
     ) { padding ->
         Box(
             Modifier
@@ -92,7 +98,10 @@ fun LoginScreen(
                 onLoginChanged = { email, password -> onLoginChanged(email, password) },
                 onLoginSelected = { onLoginClick() }
             )
-            LoginFooter(Modifier.align(Alignment.BottomCenter))
+            LoginFooter(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                onSignUpClick = { onSignUpClick() }
+            )
         }
     }
 }
@@ -250,28 +259,35 @@ fun SocialLogin(
     onFaceBookClick: () -> Unit
 ) {
     Row(modifier = modifier) {
-        Image(
-            modifier = Modifier.clickable { onTwitterClick() },
-            painter = painterResource(id = R.drawable.twitter),
-            contentDescription = "twitter"
-        )
+
+        IconButton(onClick = { onTwitterClick() }) {
+            Image(
+                painter = painterResource(id = R.drawable.twitter),
+                contentDescription = "twitter"
+            )
+        }
         HorizontalSpacer(24)
-        Image(
-            modifier = Modifier.clickable { onGmailClick() },
-            painter = painterResource(id = R.drawable.google),
-            contentDescription = "twitter"
-        )
+        IconButton(onClick = { onGmailClick() }) {
+            Image(
+                painter = painterResource(id = R.drawable.google),
+                contentDescription = "twitter"
+            )
+        }
         HorizontalSpacer(24)
-        Image(
-            modifier = Modifier.clickable { onFaceBookClick() },
-            painter = painterResource(id = R.drawable.facebook),
-            contentDescription = "twitter"
-        )
+        IconButton(onClick = { onFaceBookClick() }) {
+            Image(
+                painter = painterResource(id = R.drawable.facebook),
+                contentDescription = "twitter"
+            )
+        }
     }
 }
 
 @Composable
-fun LoginFooter(modifier: Modifier = Modifier) {
+fun LoginFooter(
+    modifier: Modifier = Modifier,
+    onSignUpClick: () -> Unit
+) {
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -285,7 +301,7 @@ fun LoginFooter(modifier: Modifier = Modifier) {
             modifier = Modifier.align(Alignment.BottomCenter),
             textDescription = "Don´t have an account",
             textAction = "Sign Up",
-            onClick = { }
+            onClick = { onSignUpClick() }
         )
     }
 }

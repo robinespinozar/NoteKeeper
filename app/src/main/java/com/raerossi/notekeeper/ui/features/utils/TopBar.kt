@@ -37,8 +37,6 @@ fun ProgressTopBar(
     progress: Float,
     onBackClick: () -> Unit
 ) {
-    var progressStatus by rememberSaveable { mutableStateOf(progress) }
-
     CenterAlignedTopAppBar(
         modifier = modifier
             .smallShadow()
@@ -47,7 +45,7 @@ fun ProgressTopBar(
             containerColor = MaterialTheme.colorScheme.topBarContainer,
             navigationIconContentColor = MaterialTheme.colorScheme.primary50
         ),
-        title = { ProgressBar(progress = progressStatus) },
+        title = { ProgressBar(progress = progress) },
         navigationIcon = { BackIcon { onBackClick() } }
     )
 }

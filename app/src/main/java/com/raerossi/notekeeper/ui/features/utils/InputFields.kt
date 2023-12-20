@@ -29,6 +29,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -70,6 +71,7 @@ fun InputField(
         enabled = true,
         singleLine = singleLine,
         maxLines = maxLines,
+        visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
         cursorBrush = SolidColor(inputFieldColors.cursorColor),
         textStyle = MaterialTheme.typography.bodySmall,
@@ -83,7 +85,6 @@ fun InputField(
             isFocused = isFocused,
             innerTextField = it,
             inputFieldColors = inputFieldColors,
-            visualTransformation = visualTransformation,
             trailingIcon = {
                 if (trailingIcon != null) {
                     trailingIcon()
@@ -119,21 +120,20 @@ fun ConfigureTextFieldValues(
     isFocused: Boolean,
     trailingIcon: @Composable () -> Unit,
     innerTextField: @Composable () -> Unit,
-    visualTransformation: VisualTransformation,
     inputFieldColors: InputFieldColors
 ) = TextFieldDefaults.TextFieldDecorationBox(
     value = text,
     innerTextField = innerTextField,
     singleLine = true,
     enabled = true,
-    visualTransformation = visualTransformation,
+    visualTransformation = VisualTransformation.None,
     label = { TextLabel(textLabel, textPlaceHolder, !text.isNotEmpty(), isFocused) },
     placeholder = { TextPlaceHolder(textPlaceHolder) },
     interactionSource = interactionSource,
     contentPadding = TextFieldDefaults.textFieldWithLabelPadding(top = 22.dp),
     colors = getTextFieldColors(!text.isNotEmpty(), inputFieldColors),
-    shape = getTextFieldShape(),
-    trailingIcon = { trailingIcon() }
+    trailingIcon = { trailingIcon() },
+    shape = getTextFieldShape()
 )
 
 fun Modifier.customFocusedIndicator(
