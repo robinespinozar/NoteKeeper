@@ -39,10 +39,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.raerossi.notekeeper.R
+import com.raerossi.notekeeper.ui.features.utils.EmailInputField
 import com.raerossi.notekeeper.ui.features.utils.GradientButton
 import com.raerossi.notekeeper.ui.features.utils.HorizontalSpacer
 import com.raerossi.notekeeper.ui.features.utils.InputField
 import com.raerossi.notekeeper.ui.features.utils.LinkButton
+import com.raerossi.notekeeper.ui.features.utils.PasswordInputField
 import com.raerossi.notekeeper.ui.features.utils.VerticalSpacer
 import com.raerossi.notekeeper.ui.theme.NoteKeeperTheme
 import com.raerossi.notekeeper.ui.theme.generalSansFamily
@@ -92,7 +94,6 @@ fun LoginScreen(
             onSignUpClick = { onSignUpClick() }
         )
     }
-
 }
 
 @Composable
@@ -157,50 +158,23 @@ fun ImageAndNameLogo(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Email(
+private fun Email(
     email: String,
     onTextChanged: (String) -> Unit
 ) {
-    InputField(
-        modifier = Modifier.fillMaxWidth(),
-        text = email,
-        onTextChanged = { onTextChanged(it) },
-        textLabel = "Email",
-        textPlaceHolder = "Enter your Email",
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
-    )
+    EmailInputField(email = email, onTextChanged = { onTextChanged(it) })
 }
 
 @Composable
-fun Password(
+private fun Password(
     password: String,
     onTextChanged: (String) -> Unit
 ) {
-    var passwordVisibility by remember { mutableStateOf(false) }
-
-    InputField(
-        modifier = Modifier.fillMaxWidth(),
-        text = password,
-        onTextChanged = { onTextChanged(it) },
-        textLabel = "Password",
-        textPlaceHolder = "Enter your Password",
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        trailingIcon = {
-            IconButton(onClick = { passwordVisibility = !passwordVisibility }
-            ) {
-                Icon(
-                    imageVector = if (passwordVisibility) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
-                    tint = MaterialTheme.colorScheme.outlineVariant,
-                    contentDescription = "show password"
-                )
-            }
-        },
-        visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation()
-    )
+    PasswordInputField(password = password, onTextChanged = { onTextChanged(it) })
 }
 
 @Composable
-fun ForgotPassword(modifier: Modifier = Modifier) {
+private fun ForgotPassword(modifier: Modifier = Modifier) {
     Text(
         text = "Forgot password?",
         fontSize = 12.sp,
@@ -214,7 +188,7 @@ fun ForgotPassword(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun LoginButton(
+private fun LoginButton(
     isLoginEnabled: Boolean,
     onLoginClick: () -> Unit
 ) {

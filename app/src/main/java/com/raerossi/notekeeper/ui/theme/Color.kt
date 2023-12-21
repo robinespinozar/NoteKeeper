@@ -69,6 +69,7 @@ val seed = Color(0xFF55D64A)
 
 val md_title = Color(0xFF0C212C)
 val md_theme_light_topBarContainer =  Color(0xFFFCFCFC)
+val md_theme_error_color = Color(0xFFFF170A)
 
 //Refs
 val md_theme_ref_primary20 = Color(0xFF003A02)

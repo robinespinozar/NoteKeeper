@@ -12,5 +12,10 @@ data class InputFieldColors(
     val placeholderColor: Color,
     val focusedIndicatorColor: Color,
     val unfocusedIndicatorColor: Color,
-    val cursorColor: Color
+    val cursorColor: Color,
+    val errorCursorColor: Color,
+    val errorIndicatorColor: Color,
+    val errorLabelColor: Color,
+    val errorSupportColor: Color,
+    val supportColor: Color
 )

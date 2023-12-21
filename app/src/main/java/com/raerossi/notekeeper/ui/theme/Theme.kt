@@ -84,6 +84,7 @@ private val DarkColorScheme = darkColorScheme(
 
 val ColorScheme.title: Color @Composable get() = md_title
 val ColorScheme.description: Color @Composable get() = md_theme_ref_neutralVariant40
+val ColorScheme.errorColor: Color @Composable get() = md_theme_error_color
 val ColorScheme.primary20: Color @Composable get() = md_theme_ref_primary20
 val ColorScheme.primary30: Color @Composable get() = md_theme_ref_primary30
 val ColorScheme.primary50: Color @Composable get() = md_theme_ref_primary50

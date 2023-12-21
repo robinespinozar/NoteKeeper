@@ -35,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.raerossi.notekeeper.ui.theme.NoteKeeperTheme
 import com.raerossi.notekeeper.ui.theme.description
+import com.raerossi.notekeeper.ui.theme.errorColor
 import com.raerossi.notekeeper.ui.theme.neutral95
 import com.raerossi.notekeeper.ui.theme.neutralVariant40
 import com.raerossi.notekeeper.ui.theme.primary50
@@ -50,6 +51,8 @@ fun InputField(
     trailingIcon: @Composable (() -> Unit)? = null,
     singleLine: Boolean = true,
     textPlaceHolder: String,
+    isError: Boolean = false,
+    textSupport: String? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     inputFieldColors: InputFieldColors = getDefaultApplicationColors(),
@@ -62,7 +65,7 @@ fun InputField(
             .getTextFieldModifiers(
                 isFocused = isFocused,
                 isEmpty = !text.isNotEmpty(),
-                focusedIndicatorColor = inputFieldColors.focusedIndicatorColor,
+                focusedIndicatorColor = if (isError) inputFieldColors.errorIndicatorColor else inputFieldColors.focusedIndicatorColor,
                 unfocusedBorderColor = inputFieldColors.unfocusedBorderColor
             )
             .onFocusChanged { focusState -> isFocused = focusState.isFocused },
@@ -73,7 +76,9 @@ fun InputField(
         maxLines = maxLines,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
-        cursorBrush = SolidColor(inputFieldColors.cursorColor),
+        cursorBrush = if (isError) SolidColor(inputFieldColors.errorCursorColor) else SolidColor(
+            inputFieldColors.cursorColor
+        ),
         textStyle = MaterialTheme.typography.bodySmall,
         interactionSource = interactionSource
     ) {
@@ -83,6 +88,7 @@ fun InputField(
             textLabel = textLabel,
             textPlaceHolder = textPlaceHolder,
             isFocused = isFocused,
+            isError = isError,
             innerTextField = it,
             inputFieldColors = inputFieldColors,
             trailingIcon = {
@@ -92,6 +98,31 @@ fun InputField(
             }
         )
     }
+    if (textSupport != null) {
+        VerticalSpacer(4)
+        SupportText(
+            textSupport = textSupport,
+            isError = isError,
+            errorSupportColor = inputFieldColors.errorSupportColor,
+            supportColor = inputFieldColors.supportColor
+        )
+    }
+}
+
+@Composable
+fun SupportText(
+    modifier: Modifier = Modifier,
+    textSupport: String,
+    isError: Boolean,
+    errorSupportColor: Color,
+    supportColor: Color
+) {
+    Text(
+        modifier = modifier.padding(start = 16.dp),
+        color = if (isError) errorSupportColor else supportColor,
+        text = textSupport,
+        style = MaterialTheme.typography.labelSmall
+    )
 }
 
 @Composable
@@ -118,6 +149,7 @@ fun ConfigureTextFieldValues(
     textLabel: String,
     textPlaceHolder: String,
     isFocused: Boolean,
+    isError: Boolean,
     trailingIcon: @Composable () -> Unit,
     innerTextField: @Composable () -> Unit,
     inputFieldColors: InputFieldColors
@@ -126,6 +158,7 @@ fun ConfigureTextFieldValues(
     innerTextField = innerTextField,
     singleLine = true,
     enabled = true,
+    isError = isError,
     visualTransformation = VisualTransformation.None,
     label = { TextLabel(textLabel, textPlaceHolder, !text.isNotEmpty(), isFocused) },
     placeholder = { TextPlaceHolder(textPlaceHolder) },
@@ -183,7 +216,10 @@ fun getTextFieldColors(
         unfocusedIndicatorColor = inputFieldColors.unfocusedIndicatorColor,
         focusedLabelColor = inputFieldColors.focusedLabelColor,
         unfocusedLabelColor = if (isEmpty) inputFieldColors.unfocusedEmptyLabelColor else inputFieldColors.unfocusedLabelColor,
-        placeholderColor = inputFieldColors.placeholderColor
+        placeholderColor = inputFieldColors.placeholderColor,
+        errorCursorColor = inputFieldColors.errorCursorColor,
+        errorIndicatorColor = inputFieldColors.errorIndicatorColor,
+        errorLabelColor = inputFieldColors.errorLabelColor
     )
 
 fun getTextFieldShape() = RoundedCornerShape(
@@ -204,7 +240,12 @@ fun getDefaultApplicationColors() = InputFieldColors(
     focusedLabelColor = MaterialTheme.colorScheme.primary50,
     unfocusedLabelColor = MaterialTheme.colorScheme.primary50,
     unfocusedEmptyLabelColor = MaterialTheme.colorScheme.neutralVariant40,
-    placeholderColor = MaterialTheme.colorScheme.neutralVariant40
+    placeholderColor = MaterialTheme.colorScheme.neutralVariant40,
+    errorCursorColor = MaterialTheme.colorScheme.errorColor,
+    errorIndicatorColor = MaterialTheme.colorScheme.errorColor,
+    errorLabelColor = MaterialTheme.colorScheme.errorColor,
+    errorSupportColor = MaterialTheme.colorScheme.errorColor,
+    supportColor = MaterialTheme.colorScheme.neutralVariant40
 )
 
 @Preview(showBackground = true)
