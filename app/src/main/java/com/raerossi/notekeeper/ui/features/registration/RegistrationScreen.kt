@@ -39,7 +39,7 @@ fun RegistrationScreen(registrationViewModel: RegistrationViewModel = hiltViewMo
     val password by registrationViewModel.password.observeAsState("")
     val confirmedPassword by registrationViewModel.confirmedPassword.observeAsState("")
     val isRegistrationEnabled by registrationViewModel.isRegistrationEnabled.observeAsState(false)
-    val isPasswordsMatch by registrationViewModel.isPasswordsMatch.observeAsState(false)
+    val isPasswordsMatch by registrationViewModel.isPasswordsMatch.observeAsState(true)
 
     RegistrationScreen(
         name = name,
