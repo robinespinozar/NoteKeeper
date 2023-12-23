@@ -23,8 +23,14 @@ class RegistrationViewModel @Inject constructor(
     private val _confirmedPassword = MutableLiveData<String>()
     val confirmedPassword: LiveData<String> = _confirmedPassword
 
-    private val _isRegistrationEnabled = MutableLiveData<Boolean>()
-    val isRegistrationEnabled: LiveData<Boolean> = _isRegistrationEnabled
+    private val _isValidName = MutableLiveData<Boolean>()
+    val isValidName: LiveData<Boolean> = _isValidName
+
+    private val _isValidEmail = MutableLiveData<Boolean>()
+    val isValidEmail: LiveData<Boolean> = _isValidEmail
+
+    private val _isValidPassword = MutableLiveData<Boolean>()
+    val isValidPassword: LiveData<Boolean> = _isValidPassword
 
     private val _isPasswordsMatch = MutableLiveData<Boolean>()
     val isPasswordsMatch: LiveData<Boolean> = _isPasswordsMatch
@@ -37,15 +43,13 @@ class RegistrationViewModel @Inject constructor(
         _email.value = email
         _password.value = password
         _confirmedPassword.value = confirmedPassword
-        _isRegistrationEnabled.value = enableSignUp(name, email, password, confirmedPassword)
     }
 
-    fun onSignUpSelected(password: String, confirmedPassword: String) {
+    fun onSignUpSelected(name: String, email: String, password: String, confirmedPassword: String) {
+        _isValidName.value = validateName(name)
+        _isValidEmail.value = validateEmail(email)
+        _isValidPassword.value = validatePassword(password)
         _isPasswordsMatch.value = validatePasswordMatches(password, confirmedPassword)
-    }
-
-    private fun enableSignUp(name: String,email: String,password: String,confirmedPassword: String): Boolean {
-        return validateName(name) && validateEmail(email) && validatePassword(password) && validatePassword(confirmedPassword)
     }
 
     private fun validateName(name: String) = name.matches(Regex("^[a-zA-Z ]+\$")) && name.isNotEmpty()
@@ -54,5 +58,5 @@ class RegistrationViewModel @Inject constructor(
 
     private fun validatePassword(password: String) = password.length > 6
 
-    private fun validatePasswordMatches(password: String, confirmedPassword: String) = (password == confirmedPassword)
+    private fun validatePasswordMatches(password: String, confirmedPassword: String) = password == confirmedPassword
 }

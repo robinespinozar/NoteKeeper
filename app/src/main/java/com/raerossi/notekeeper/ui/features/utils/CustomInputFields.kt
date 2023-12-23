@@ -21,10 +21,10 @@ import com.raerossi.notekeeper.ui.theme.errorColor
 
 @Composable
 fun PasswordInputField(
+    password: String,
     textLabel: String = "Password",
     textPlaceHolder: String = "Enter your password",
     textSupport: String? = null,
-    password: String,
     isError: Boolean = false,
     onTextChanged: (String) -> Unit
 ) {
@@ -55,15 +55,19 @@ fun PasswordInputField(
 
 @Composable
 fun EmailInputField(
+    email: String,
     textLabel: String = "Email",
     textPlaceHolder: String = "Enter your email",
-    email: String,
+    textSupport: String? = null,
+    isError: Boolean = false,
     onTextChanged: (String) -> Unit
 ) {
     InputField(
         modifier = Modifier.fillMaxWidth(),
         text = email,
         onTextChanged = { onTextChanged(it) },
+        isError = isError,
+        textSupport = textSupport,
         textLabel = textLabel,
         textPlaceHolder = textPlaceHolder,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
@@ -75,12 +79,16 @@ fun TextInputField(
     text: String,
     textLabel: String,
     textPlaceHolder: String,
+    textSupport: String? = null,
+    isError: Boolean = false,
     onTextChanged: (String) -> Unit
 ) {
     InputField(
         modifier = Modifier.fillMaxWidth(),
         text = text,
         onTextChanged = { onTextChanged(it) },
+        isError = isError,
+        textSupport = textSupport,
         textLabel = textLabel,
         textPlaceHolder = textPlaceHolder,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)

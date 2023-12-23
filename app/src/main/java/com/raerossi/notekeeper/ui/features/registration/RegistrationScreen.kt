@@ -38,7 +38,10 @@ fun RegistrationScreen(registrationViewModel: RegistrationViewModel = hiltViewMo
     val email by registrationViewModel.email.observeAsState("")
     val password by registrationViewModel.password.observeAsState("")
     val confirmedPassword by registrationViewModel.confirmedPassword.observeAsState("")
-    val isRegistrationEnabled by registrationViewModel.isRegistrationEnabled.observeAsState(false)
+    //val isRegistrationEnabled by registrationViewModel.isRegistrationEnabled.observeAsState(false)
+    val isValidName by registrationViewModel.isValidName.observeAsState(true)
+    val isValidEmail by registrationViewModel.isValidEmail.observeAsState(true)
+    val isValidPassword by registrationViewModel.isValidPassword.observeAsState(true)
     val isPasswordsMatch by registrationViewModel.isPasswordsMatch.observeAsState(true)
 
     RegistrationScreen(
@@ -46,12 +49,15 @@ fun RegistrationScreen(registrationViewModel: RegistrationViewModel = hiltViewMo
         email = email,
         password = password,
         confirmedPassword = confirmedPassword,
-        isRegistrationEnabled = isRegistrationEnabled,
+        //isRegistrationEnabled = isRegistrationEnabled,
+        isValidName = isValidName,
+        isValidEmail = isValidEmail,
+        isValidPassword = isValidPassword,
         isPasswordsMatch = isPasswordsMatch,
         onSignUpChanged = { name, email, pass, confirmedPass ->
             registrationViewModel.onSignUpChanged(name, email, pass, confirmedPass)
         },
-        onSignUpClick = { registrationViewModel.onSignUpSelected(password,confirmedPassword) },
+        onSignUpClick = { registrationViewModel.onSignUpSelected(name,email,password, confirmedPassword) },
         onLogInClick = { }
     )
 }
@@ -62,8 +68,11 @@ fun RegistrationScreen(
     email: String,
     password: String,
     confirmedPassword: String,
+    isValidName: Boolean,
+    isValidEmail: Boolean,
+    isValidPassword: Boolean,
     isPasswordsMatch: Boolean,
-    isRegistrationEnabled: Boolean,
+    //isRegistrationEnabled: Boolean,
     onSignUpChanged: (String, String, String, String) -> Unit,
     onSignUpClick: () -> Unit,
     onLogInClick: () -> Unit
@@ -80,8 +89,11 @@ fun RegistrationScreen(
             email = email,
             password = password,
             confirmedPassword = confirmedPassword,
+            isValidName = isValidName,
+            isValidEmail = isValidEmail,
+            isValidPassword = isValidPassword,
             isPasswordsMatch = isPasswordsMatch,
-            isRegistrationEnabled = isRegistrationEnabled,
+            //isRegistrationEnabled = isRegistrationEnabled,
             onSignUpChanged = { name, email, pass, confirmedPass ->
                 onSignUpChanged(name, email, pass, confirmedPass)
             },
@@ -113,7 +125,10 @@ fun RegistrationBody(
     email: String,
     password: String,
     confirmedPassword: String,
-    isRegistrationEnabled: Boolean,
+    //isRegistrationEnabled: Boolean,
+    isValidName: Boolean,
+    isValidEmail: Boolean,
+    isValidPassword: Boolean,
     isPasswordsMatch: Boolean,
     onSignUpChanged: (String, String, String, String) -> Unit,
     onSignUpSelected: () -> Unit
@@ -125,17 +140,17 @@ fun RegistrationBody(
     ) {
         ImageAndNameLogo(Modifier.align(Alignment.CenterHorizontally))
         VerticalSpacer(16)
-        Name(name) { onSignUpChanged(it, email, password, confirmedPassword) }
+        Name(name, isValidName) { onSignUpChanged(it, email, password, confirmedPassword) }
         VerticalSpacer(8)
-        Email(email) { onSignUpChanged(name, it, password, confirmedPassword) }
+        Email(email, isValidEmail) { onSignUpChanged(name, it, password, confirmedPassword) }
         VerticalSpacer(8)
-        Password(password) { onSignUpChanged(name, email, it, confirmedPassword) }
+        Password(password, isValidPassword) { onSignUpChanged(name, email, it, confirmedPassword) }
         VerticalSpacer(8)
         ConfirmedPassword(confirmedPassword, isPasswordsMatch) {
             onSignUpChanged(name, email, password, it)
         }
         VerticalSpacer(16)
-        RegisterButton(isRegistrationEnabled) { onSignUpSelected() }
+        RegisterButton() { onSignUpSelected() }
         VerticalSpacer(32)
         LoginDivider()
         VerticalSpacer(16)
@@ -151,12 +166,15 @@ fun RegistrationBody(
 @Composable
 private fun Name(
     name: String,
+    isValidName: Boolean,
     onTextChanged: (String) -> Unit
 ) {
     TextInputField(
         text = name,
         textLabel = "Name",
         textPlaceHolder = "Enter your name",
+        textSupport = if(!isValidName) "Enter a valid name" else null,
+        isError = !isValidName,
         onTextChanged = { onTextChanged(it) }
     )
 }
@@ -164,19 +182,27 @@ private fun Name(
 @Composable
 private fun Email(
     email: String,
+    isValidEmail: Boolean,
     onTextChanged: (String) -> Unit
 ) {
-    EmailInputField(email = email, onTextChanged = { onTextChanged(it) })
+    EmailInputField(
+        email = email,
+        textSupport = if(!isValidEmail) "Enter a valid email address" else null,
+        isError = !isValidEmail,
+        onTextChanged = { onTextChanged(it) }
+    )
 }
 
 @Composable
 private fun Password(
     password: String,
+    isValidPassword: Boolean,
     onTextChanged: (String) -> Unit
 ) {
     PasswordInputField(
         password = password,
-        textSupport = "Must be 7 or more characters",
+        textSupport = if (!isValidPassword) "Password must be 7 or more characters" else "Must be 7 or more characters",
+        isError = !isValidPassword,
         onTextChanged = { onTextChanged(it) }
     )
 }
@@ -199,13 +225,13 @@ fun ConfirmedPassword(
 
 @Composable
 fun RegisterButton(
-    isRegistrationEnabled: Boolean,
+    //isRegistrationEnabled: Boolean,
     onRegistrationClick: () -> Unit
 ) {
     GradientButton(
         text = "Sign Up",
         textColor = Color.White,
-        enabled = isRegistrationEnabled,
+        //enabled = isRegistrationEnabled,
         gradient = MaterialTheme.colorScheme.primaryGradient,
         onClick = { onRegistrationClick() }
     )

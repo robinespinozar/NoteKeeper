@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "969911851020",
+    "project_id": "notekeeper-b99df",
+    "storage_bucket": "notekeeper-b99df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:969911851020:android:03747f672f6982412c7629",
+        "android_client_info": {
+          "package_name": "com.raerossi.notekeeper"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5Np9UtN-6kabxGMXeloxB4lub3Chqw0w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
