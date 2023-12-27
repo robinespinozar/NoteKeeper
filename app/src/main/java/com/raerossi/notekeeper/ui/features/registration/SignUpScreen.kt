@@ -49,7 +49,7 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = hiltViewModel()) {
         signUpUser = signUpUser,
         uiState = uiState,
         onSignUpChanged = { signUpViewModel.onSignUpUserChanged(it) },
-        onSignUpClick = { signUpViewModel.onSignUpSelected(it) },
+        onSignUpClick = { signUpViewModel.onSignUpSelected(signUpUser = it, toVerifyEmail = {  }) },
         onLogInClick = { }
     )
 }

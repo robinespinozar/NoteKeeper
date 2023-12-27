@@ -30,7 +30,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun SplashScreen(
     splashViewModel: SplashViewModel = hiltViewModel(),
-    onStartScreen: (Boolean) -> Unit
+    toStartScreen: (Boolean) -> Unit
 ) {
     SetSystemColors(colorStatusBar = Color(0xFF13991D))
     val onBoardingIsCompleted by splashViewModel.onBoardingIsCompleted.collectAsState()
@@ -47,7 +47,7 @@ fun SplashScreen(
             )
         )
         delay(1200L)
-        onStartScreen(onBoardingIsCompleted)
+        toStartScreen(onBoardingIsCompleted)
     }
     SplashScreen(scale = scale.value)
 }

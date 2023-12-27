@@ -25,7 +25,7 @@ fun RootNavHost(navController: NavHostController) {
     ) {
         composable(route = Screen.SplashScreen.route) {
             SplashScreen(
-                onStartScreen = { onBoardingIsCompleted ->
+                toStartScreen = { onBoardingIsCompleted ->
                     navController.popBackStack()
                     if (onBoardingIsCompleted) navController.navigate(Graph.MAIN) else navController.navigate(Screen.WelcomeScreen.route)
                 }
