@@ -10,7 +10,7 @@ import com.raerossi.notekeeper.ui.features.home.HomeScreen
 import com.raerossi.notekeeper.ui.features.login.LoginScreen
 import com.raerossi.notekeeper.ui.features.main.MainScreen
 import com.raerossi.notekeeper.ui.features.profile.ProfileScreen
-import com.raerossi.notekeeper.ui.features.registration.RegistrationScreen
+import com.raerossi.notekeeper.ui.features.registration.SignUpScreen
 import com.raerossi.notekeeper.ui.features.schedule.ScheduleScreen
 import com.raerossi.notekeeper.ui.features.splash.SplashScreen
 import com.raerossi.notekeeper.ui.features.welcome.WelcomeScreen
@@ -44,7 +44,7 @@ fun NavGraphBuilder.userNavHost(){
             LoginScreen()
         }
         composable(route = Screen.RegistrationScreen.route) {
-            RegistrationScreen()
+            SignUpScreen()
         }
     }
 }

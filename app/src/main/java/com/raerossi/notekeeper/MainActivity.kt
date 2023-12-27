@@ -9,7 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.raerossi.notekeeper.ui.features.login.LoginScreen
-import com.raerossi.notekeeper.ui.features.registration.RegistrationScreen
+import com.raerossi.notekeeper.ui.features.registration.SignUpScreen
 import com.raerossi.notekeeper.ui.features.splash.SplashViewModel
 import com.raerossi.notekeeper.ui.navigation.NoteKeeperApp
 import com.raerossi.notekeeper.ui.theme.NoteKeeperTheme
@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             NoteKeeperTheme {
                 //NoteKeeperApp()
-                RegistrationScreen()
+                SignUpScreen()
             }
         }
     }

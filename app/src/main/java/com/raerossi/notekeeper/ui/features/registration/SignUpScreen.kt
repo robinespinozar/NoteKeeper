@@ -10,16 +10,22 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.raerossi.notekeeper.R
 import com.raerossi.notekeeper.ui.features.login.ImageAndNameLogo
 import com.raerossi.notekeeper.ui.features.login.LoginDivider
@@ -32,49 +38,28 @@ import com.raerossi.notekeeper.ui.features.utils.TextInputField
 import com.raerossi.notekeeper.ui.features.utils.VerticalSpacer
 import com.raerossi.notekeeper.ui.theme.primaryGradient
 
-@Composable
-fun RegistrationScreen(registrationViewModel: RegistrationViewModel = hiltViewModel()) {
-    val name by registrationViewModel.name.observeAsState("")
-    val email by registrationViewModel.email.observeAsState("")
-    val password by registrationViewModel.password.observeAsState("")
-    val confirmedPassword by registrationViewModel.confirmedPassword.observeAsState("")
-    //val isRegistrationEnabled by registrationViewModel.isRegistrationEnabled.observeAsState(false)
-    val isValidName by registrationViewModel.isValidName.observeAsState(true)
-    val isValidEmail by registrationViewModel.isValidEmail.observeAsState(true)
-    val isValidPassword by registrationViewModel.isValidPassword.observeAsState(true)
-    val isPasswordsMatch by registrationViewModel.isPasswordsMatch.observeAsState(true)
+//Callbacks agregar como en el ejemplo de sunflower
 
-    RegistrationScreen(
-        name = name,
-        email = email,
-        password = password,
-        confirmedPassword = confirmedPassword,
-        //isRegistrationEnabled = isRegistrationEnabled,
-        isValidName = isValidName,
-        isValidEmail = isValidEmail,
-        isValidPassword = isValidPassword,
-        isPasswordsMatch = isPasswordsMatch,
-        onSignUpChanged = { name, email, pass, confirmedPass ->
-            registrationViewModel.onSignUpChanged(name, email, pass, confirmedPass)
-        },
-        onSignUpClick = { registrationViewModel.onSignUpSelected(name,email,password, confirmedPassword) },
+@Composable
+fun SignUpScreen(signUpViewModel: SignUpViewModel = hiltViewModel()) {
+    val signUpUser by signUpViewModel.signUpUser.observeAsState(SignUpUser())
+    val uiState by signUpViewModel.uiState.collectAsState()
+
+    SignUpScreen(
+        signUpUser = signUpUser,
+        uiState = uiState,
+        onSignUpChanged = { signUpViewModel.onSignUpUserChanged(it) },
+        onSignUpClick = { signUpViewModel.onSignUpSelected(it) },
         onLogInClick = { }
     )
 }
 
 @Composable
-fun RegistrationScreen(
-    name: String,
-    email: String,
-    password: String,
-    confirmedPassword: String,
-    isValidName: Boolean,
-    isValidEmail: Boolean,
-    isValidPassword: Boolean,
-    isPasswordsMatch: Boolean,
-    //isRegistrationEnabled: Boolean,
-    onSignUpChanged: (String, String, String, String) -> Unit,
-    onSignUpClick: () -> Unit,
+fun SignUpScreen(
+    signUpUser: SignUpUser,
+    uiState: SignUpUiState,
+    onSignUpChanged: (SignUpUser) -> Unit,
+    onSignUpClick: (SignUpUser) -> Unit,
     onLogInClick: () -> Unit
 ) {
     Box(
@@ -82,31 +67,22 @@ fun RegistrationScreen(
             .fillMaxSize()
             .background(Color(0xFFFFFFFF))
     ) {
-        RegistrationHeader(modifier = Modifier.align(Alignment.TopCenter))
-        RegistrationBody(
+        SignUpHeader(modifier = Modifier.align(Alignment.TopCenter))
+        SignUpBody(
             modifier = Modifier.align(Alignment.Center),
-            name = name,
-            email = email,
-            password = password,
-            confirmedPassword = confirmedPassword,
-            isValidName = isValidName,
-            isValidEmail = isValidEmail,
-            isValidPassword = isValidPassword,
-            isPasswordsMatch = isPasswordsMatch,
-            //isRegistrationEnabled = isRegistrationEnabled,
-            onSignUpChanged = { name, email, pass, confirmedPass ->
-                onSignUpChanged(name, email, pass, confirmedPass)
-            },
-            onSignUpSelected = { onSignUpClick() }
+            signUpUser = signUpUser,
+            uiState = uiState,
+            onSignUpChanged = { onSignUpChanged(it) },
+            onSignUpSelected = { onSignUpClick(it) }
         )
-        RegistrationFooter(
+        SignUpFooter(
             modifier = Modifier.align(Alignment.BottomCenter),
             onLogInClick = { onLogInClick() })
     }
 }
 
 @Composable
-fun RegistrationHeader(modifier: Modifier) {
+fun SignUpHeader(modifier: Modifier) {
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -119,19 +95,12 @@ fun RegistrationHeader(modifier: Modifier) {
 }
 
 @Composable
-fun RegistrationBody(
+fun SignUpBody(
     modifier: Modifier = Modifier,
-    name: String,
-    email: String,
-    password: String,
-    confirmedPassword: String,
-    //isRegistrationEnabled: Boolean,
-    isValidName: Boolean,
-    isValidEmail: Boolean,
-    isValidPassword: Boolean,
-    isPasswordsMatch: Boolean,
-    onSignUpChanged: (String, String, String, String) -> Unit,
-    onSignUpSelected: () -> Unit
+    signUpUser: SignUpUser,
+    uiState: SignUpUiState,
+    onSignUpChanged: (SignUpUser) -> Unit,
+    onSignUpSelected: (SignUpUser) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -140,17 +109,29 @@ fun RegistrationBody(
     ) {
         ImageAndNameLogo(Modifier.align(Alignment.CenterHorizontally))
         VerticalSpacer(16)
-        Name(name, isValidName) { onSignUpChanged(it, email, password, confirmedPassword) }
-        VerticalSpacer(8)
-        Email(email, isValidEmail) { onSignUpChanged(name, it, password, confirmedPassword) }
-        VerticalSpacer(8)
-        Password(password, isValidPassword) { onSignUpChanged(name, email, it, confirmedPassword) }
-        VerticalSpacer(8)
-        ConfirmedPassword(confirmedPassword, isPasswordsMatch) {
-            onSignUpChanged(name, email, password, it)
+        Name(
+            name = signUpUser.name,
+            isValidName = uiState.isValidName
+        ) {
+            onSignUpChanged(signUpUser.copy(name = it))
         }
+        VerticalSpacer(8)
+        Email(
+            email = signUpUser.email,
+            isValidEmail = uiState.isValidEmail
+        ) { onSignUpChanged(signUpUser.copy(email = it)) }
+        VerticalSpacer(8)
+        Password(
+            password = signUpUser.password,
+            isValidPassword = uiState.isValidPassword
+        ) { onSignUpChanged(signUpUser.copy(password = it)) }
+        VerticalSpacer(8)
+        ConfirmedPassword(
+            confirmedPassword = signUpUser.confirmedPassword,
+            isPasswordsMatch = uiState.isPasswordsMatch
+        ) { onSignUpChanged(signUpUser.copy(confirmedPassword = it)) }
         VerticalSpacer(16)
-        RegisterButton() { onSignUpSelected() }
+        RegisterButton { onSignUpSelected(signUpUser.copy()) }
         VerticalSpacer(32)
         LoginDivider()
         VerticalSpacer(16)
@@ -173,7 +154,7 @@ private fun Name(
         text = name,
         textLabel = "Name",
         textPlaceHolder = "Enter your name",
-        textSupport = if(!isValidName) "Enter a valid name" else null,
+        textSupport = if (!isValidName) "Enter a valid name" else null,
         isError = !isValidName,
         onTextChanged = { onTextChanged(it) }
     )
@@ -187,7 +168,7 @@ private fun Email(
 ) {
     EmailInputField(
         email = email,
-        textSupport = if(!isValidEmail) "Enter a valid email address" else null,
+        textSupport = if (!isValidEmail) "Enter a valid email address" else null,
         isError = !isValidEmail,
         onTextChanged = { onTextChanged(it) }
     )
@@ -225,20 +206,18 @@ fun ConfirmedPassword(
 
 @Composable
 fun RegisterButton(
-    //isRegistrationEnabled: Boolean,
-    onRegistrationClick: () -> Unit
+    onSignUpClick: () -> Unit
 ) {
     GradientButton(
         text = "Sign Up",
         textColor = Color.White,
-        //enabled = isRegistrationEnabled,
         gradient = MaterialTheme.colorScheme.primaryGradient,
-        onClick = { onRegistrationClick() }
+        onClick = { onSignUpClick() }
     )
 }
 
 @Composable
-fun RegistrationFooter(
+fun SignUpFooter(
     modifier: Modifier = Modifier,
     onLogInClick: () -> Unit
 ) {
