@@ -38,8 +38,6 @@ import com.raerossi.notekeeper.ui.features.utils.TextInputField
 import com.raerossi.notekeeper.ui.features.utils.VerticalSpacer
 import com.raerossi.notekeeper.ui.theme.primaryGradient
 
-//Callbacks agregar como en el ejemplo de sunflower
-
 @Composable
 fun SignUpScreen(signUpViewModel: SignUpViewModel = hiltViewModel()) {
     val signUpUser by signUpViewModel.signUpUser.observeAsState(SignUpUser())
@@ -48,9 +46,14 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = hiltViewModel()) {
     SignUpScreen(
         signUpUser = signUpUser,
         uiState = uiState,
-        onSignUpChanged = { signUpViewModel.onSignUpUserChanged(it) },
-        onSignUpClick = { signUpViewModel.onSignUpSelected(signUpUser = it, toVerifyEmail = {  }) },
-        onLogInClick = { }
+        callBacks = SignUpCallBacks(
+            onSignUpUserChanged = { signUpViewModel.onSignUpUserChanged(it) },
+            onSignUpClick = { signUpViewModel.onSignUpSelected(it, toVerifyEmail = { }) },
+            onLogInClick = {},
+            onTwitterClick = {},
+            onGmailClick = {},
+            onFaceBookClick = {},
+        )
     )
 }
 
@@ -58,9 +61,7 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = hiltViewModel()) {
 fun SignUpScreen(
     signUpUser: SignUpUser,
     uiState: SignUpUiState,
-    onSignUpChanged: (SignUpUser) -> Unit,
-    onSignUpClick: (SignUpUser) -> Unit,
-    onLogInClick: () -> Unit
+    callBacks: SignUpCallBacks
 ) {
     Box(
         Modifier
@@ -72,12 +73,11 @@ fun SignUpScreen(
             modifier = Modifier.align(Alignment.Center),
             signUpUser = signUpUser,
             uiState = uiState,
-            onSignUpChanged = { onSignUpChanged(it) },
-            onSignUpSelected = { onSignUpClick(it) }
+            callBacks = callBacks
         )
         SignUpFooter(
             modifier = Modifier.align(Alignment.BottomCenter),
-            onLogInClick = { onLogInClick() })
+            onLogInClick = { callBacks.onLogInClick() })
     }
 }
 
@@ -99,8 +99,7 @@ fun SignUpBody(
     modifier: Modifier = Modifier,
     signUpUser: SignUpUser,
     uiState: SignUpUiState,
-    onSignUpChanged: (SignUpUser) -> Unit,
-    onSignUpSelected: (SignUpUser) -> Unit
+    callBacks: SignUpCallBacks
 ) {
     Column(
         modifier = modifier
@@ -112,34 +111,32 @@ fun SignUpBody(
         Name(
             name = signUpUser.name,
             isValidName = uiState.isValidName
-        ) {
-            onSignUpChanged(signUpUser.copy(name = it))
-        }
+        ) { callBacks.onSignUpUserChanged(signUpUser.copy(name = it)) }
         VerticalSpacer(8)
         Email(
             email = signUpUser.email,
             isValidEmail = uiState.isValidEmail
-        ) { onSignUpChanged(signUpUser.copy(email = it)) }
+        ) { callBacks.onSignUpUserChanged(signUpUser.copy(email = it)) }
         VerticalSpacer(8)
         Password(
             password = signUpUser.password,
             isValidPassword = uiState.isValidPassword
-        ) { onSignUpChanged(signUpUser.copy(password = it)) }
+        ) { callBacks.onSignUpUserChanged(signUpUser.copy(password = it)) }
         VerticalSpacer(8)
         ConfirmedPassword(
             confirmedPassword = signUpUser.confirmedPassword,
             isPasswordsMatch = uiState.isPasswordsMatch
-        ) { onSignUpChanged(signUpUser.copy(confirmedPassword = it)) }
+        ) { callBacks.onSignUpUserChanged(signUpUser.copy(confirmedPassword = it)) }
         VerticalSpacer(16)
-        RegisterButton { onSignUpSelected(signUpUser.copy()) }
+        RegisterButton { callBacks.onSignUpClick(signUpUser.copy()) }
         VerticalSpacer(32)
         LoginDivider()
         VerticalSpacer(16)
         SocialLogin(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            onTwitterClick = {},
-            onGmailClick = {},
-            onFaceBookClick = {}
+            onTwitterClick = { callBacks.onTwitterClick() },
+            onGmailClick = { callBacks.onGmailClick() },
+            onFaceBookClick = { callBacks.onFaceBookClick() }
         )
     }
 }

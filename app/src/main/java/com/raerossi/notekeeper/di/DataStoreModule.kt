@@ -1,7 +1,7 @@
 package com.raerossi.notekeeper.di
 
 import android.content.Context
-import com.raerossi.notekeeper.data.Preferences
+import com.raerossi.notekeeper.data.preferences.Preferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

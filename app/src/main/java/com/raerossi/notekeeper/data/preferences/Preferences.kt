@@ -1,4 +1,4 @@
-package com.raerossi.notekeeper.data
+package com.raerossi.notekeeper.data.preferences
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import java.io.IOException
-import javax.inject.Inject
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "on_boarding_pref")
 

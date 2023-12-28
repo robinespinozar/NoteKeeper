@@ -19,6 +19,8 @@ fun LinkButton(
     modifier: Modifier = Modifier,
     textDescription: String,
     textAction: String,
+    descriptionColor: Color = MaterialTheme.colorScheme.primary30,
+    actionColor: Color = MaterialTheme.colorScheme.primary50,
     height: Int = 48,
     onClick: () -> Unit
 ) {
@@ -34,12 +36,12 @@ fun LinkButton(
         Row {
             Text(
                 text = "$textDescription ",
-                color = MaterialTheme.colorScheme.primary30,
+                color = descriptionColor,
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
                 text = textAction,
-                color = MaterialTheme.colorScheme.primary50,
+                color = actionColor,
                 style = MaterialTheme.typography.labelLarge
             )
         }

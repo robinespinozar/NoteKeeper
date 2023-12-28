@@ -11,6 +11,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.raerossi.notekeeper.ui.features.login.LoginScreen
 import com.raerossi.notekeeper.ui.features.registration.SignUpScreen
 import com.raerossi.notekeeper.ui.features.splash.SplashViewModel
+import com.raerossi.notekeeper.ui.features.verification.VerificationScreen
 import com.raerossi.notekeeper.ui.navigation.NoteKeeperApp
 import com.raerossi.notekeeper.ui.theme.NoteKeeperTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,7 +25,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             NoteKeeperTheme {
                 //NoteKeeperApp()
-                SignUpScreen()
+                //SignUpScreen()
+                VerificationScreen()
             }
         }
     }

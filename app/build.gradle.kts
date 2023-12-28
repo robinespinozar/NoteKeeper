@@ -83,6 +83,12 @@ dependencies {
     //StatusBar - Accompanist
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
 
+    //Lotttie
+    implementation("com.airbnb.android:lottie-compose:4.0.0")
+
+    //Timber
+    implementation("com.jakewharton.timber:timber:5.0.1")
+
     //Live Data
     implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
 

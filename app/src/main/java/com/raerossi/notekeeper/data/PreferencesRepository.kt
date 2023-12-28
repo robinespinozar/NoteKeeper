@@ -1,5 +1,6 @@
 package com.raerossi.notekeeper.data
 
+import com.raerossi.notekeeper.data.preferences.Preferences
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

@@ -24,9 +24,6 @@ class SignUpViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(SignUpUiState())
     val uiState: StateFlow<SignUpUiState> = _uiState
 
-    // private val _isCreationSuccessful = MutableLiveData<Boolean>()
-    // val isCreationSuccessful: LiveData<Boolean> = _isCreationSuccessful
-
     private val _showErrorDialog = MutableLiveData<Boolean>()
     val showErrorDialog: LiveData<Boolean> = _showErrorDialog
 

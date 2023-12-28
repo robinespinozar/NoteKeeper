@@ -90,6 +90,7 @@ val ColorScheme.primary30: Color @Composable get() = md_theme_ref_primary30
 val ColorScheme.primary50: Color @Composable get() = md_theme_ref_primary50
 val ColorScheme.primary70: Color @Composable get() = md_theme_ref_primary70
 val ColorScheme.neutral95: Color @Composable get() = md_theme_ref_neutral95
+val ColorScheme.tertiary95: Color @Composable get() = md_theme_ref_tertiary95
 val ColorScheme.neutralVariant40: Color @Composable get() = md_theme_ref_neutralVariant40
 val ColorScheme.neutralVariant80: Color @Composable get() = md_theme_ref_neutralVariant80
 val ColorScheme.neutralVariant90: Color @Composable get() = md_theme_ref_neutralVariant90
