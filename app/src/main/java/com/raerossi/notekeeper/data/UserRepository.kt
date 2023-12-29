@@ -1,6 +1,7 @@
 package com.raerossi.notekeeper.data
 
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseUser
 import com.raerossi.notekeeper.data.remote.AuthService
 import com.raerossi.notekeeper.data.remote.UserService
 import com.raerossi.notekeeper.ui.features.registration.SignUpUser
@@ -11,7 +12,7 @@ class UserRepository @Inject constructor(
     private val apiAuth: AuthService,
     private val apiUser: UserService
 ) {
-    suspend fun createAccount(email: String, password: String): AuthResult? {
+    suspend fun createAccount(email: String, password: String): FirebaseUser? {
         return apiAuth.createAccount(email, password)
     }
 

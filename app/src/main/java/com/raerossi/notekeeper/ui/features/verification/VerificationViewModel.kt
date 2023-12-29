@@ -34,5 +34,5 @@ class VerificationViewModel @Inject constructor(
         }
     }
 
-    suspend fun sendEmailVerification() = sendEmailVerificationUseCase()
+    fun sendEmailVerification() = viewModelScope.launch { sendEmailVerificationUseCase() }
 }

@@ -39,7 +39,10 @@ import com.raerossi.notekeeper.ui.features.utils.VerticalSpacer
 import com.raerossi.notekeeper.ui.theme.primaryGradient
 
 @Composable
-fun SignUpScreen(signUpViewModel: SignUpViewModel = hiltViewModel()) {
+fun SignUpScreen(
+    signUpViewModel: SignUpViewModel = hiltViewModel(),
+    onSignUpClick: () -> Unit
+) {
     val signUpUser by signUpViewModel.signUpUser.observeAsState(SignUpUser())
     val uiState by signUpViewModel.uiState.collectAsState()
 
@@ -48,7 +51,9 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = hiltViewModel()) {
         uiState = uiState,
         callBacks = SignUpCallBacks(
             onSignUpUserChanged = { signUpViewModel.onSignUpUserChanged(it) },
-            onSignUpClick = { signUpViewModel.onSignUpSelected(it, toVerifyEmail = { }) },
+            onSignUpClick = {
+                signUpViewModel.onSignUpSelected(it, toVerifyEmail = { onSignUpClick() })
+            },
             onLogInClick = {},
             onTwitterClick = {},
             onGmailClick = {},

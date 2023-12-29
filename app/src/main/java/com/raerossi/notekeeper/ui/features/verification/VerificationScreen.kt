@@ -38,9 +38,25 @@ import com.raerossi.notekeeper.ui.theme.secondaryGradient
 import com.raerossi.notekeeper.ui.theme.tertiary95
 
 @Composable
-fun VerificationScreen(verificationViewModel: VerificationViewModel = hiltViewModel()) {
+fun VerificationScreen(
+    verificationViewModel: VerificationViewModel = hiltViewModel(),
+    onContinueClick: () -> Unit
+) {
     val showContinueButton by verificationViewModel.showContinueButton.observeAsState(false)
 
+    VerificationScreen(
+        showContinueButton = showContinueButton,
+        onContinueClick = { onContinueClick() },
+        onSendEmailClick = { verificationViewModel.sendEmailVerification() }
+    )
+}
+
+@Composable
+fun VerificationScreen(
+    showContinueButton: Boolean,
+    onContinueClick: () -> Unit,
+    onSendEmailClick: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -55,13 +71,20 @@ fun VerificationScreen(verificationViewModel: VerificationViewModel = hiltViewMo
         )
         VerificationContent(
             modifier = Modifier.align(Alignment.BottomCenter),
-            showContinueButton = showContinueButton
+            showContinueButton = showContinueButton,
+            onContinueClick = { onContinueClick() },
+            onSendEmailClick = { onSendEmailClick() }
         )
     }
 }
 
 @Composable
-fun VerificationContent(modifier: Modifier = Modifier, showContinueButton: Boolean) {
+fun VerificationContent(
+    modifier: Modifier = Modifier,
+    showContinueButton: Boolean,
+    onContinueClick: () -> Unit,
+    onSendEmailClick: () -> Unit
+) {
     Column(modifier) {
         TitleAndDescription(
             title = "Confirm your email",
@@ -69,8 +92,8 @@ fun VerificationContent(modifier: Modifier = Modifier, showContinueButton: Boole
             centerAlign = true,
             description = "We just sent you an email to verify your account\n" + "(remember look the SPAM)\n"
         )
-        VerticalSpacer(64)
-        ContinueButton(showContinueButton)
+        VerticalSpacer(16)
+        ContinueButton(showContinueButton) { onContinueClick() }
         VerticalSpacer(8)
         LinkButton(
             modifier = Modifier.padding(bottom = 8.dp),
@@ -78,13 +101,13 @@ fun VerificationContent(modifier: Modifier = Modifier, showContinueButton: Boole
             textAction = "Send again",
             descriptionColor = Color.White,
             actionColor = MaterialTheme.colorScheme.tertiary95,
-            onClick = { }
+            onClick = { onSendEmailClick() }
         )
     }
 }
 
 @Composable
-fun ContinueButton(showContinueButton: Boolean) {
+fun ContinueButton(showContinueButton: Boolean, onClick: () -> Unit) {
     Row(
         modifier = Modifier.padding(horizontal = 16.dp),
         verticalAlignment = Alignment.Top,
@@ -98,7 +121,7 @@ fun ContinueButton(showContinueButton: Boolean) {
                 text = "Continue",
                 textColor = MaterialTheme.colorScheme.primary20,
                 gradient = MaterialTheme.colorScheme.secondaryGradient,
-                onClick = { }
+                onClick = { onClick() }
             )
         }
     }
@@ -118,12 +141,4 @@ fun VerifyAnimation(modifier: Modifier = Modifier) {
         progress = progress,
         modifier = modifier
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun VerificationScreenPreview() {
-    NoteKeeperTheme {
-        VerificationScreen()
-    }
 }

@@ -8,12 +8,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.raerossi.notekeeper.ui.features.home.HomeScreen
 import com.raerossi.notekeeper.ui.features.login.LoginScreen
-import com.raerossi.notekeeper.ui.features.main.MainScreen
 import com.raerossi.notekeeper.ui.features.profile.ProfileScreen
 import com.raerossi.notekeeper.ui.features.registration.SignUpScreen
 import com.raerossi.notekeeper.ui.features.schedule.ScheduleScreen
-import com.raerossi.notekeeper.ui.features.splash.SplashScreen
-import com.raerossi.notekeeper.ui.features.welcome.WelcomeScreen
+import com.raerossi.notekeeper.ui.features.verification.VerificationScreen
 
 @Composable
 fun MainNavHost(navController: NavHostController) {
@@ -31,20 +29,32 @@ fun MainNavHost(navController: NavHostController) {
         composable(route = NavBarItem.ProfileScreen.route) {
             ProfileScreen()
         }
-        userNavHost()
+        userNavHost(navController)
     }
 }
 
-fun NavGraphBuilder.userNavHost(){
+fun NavGraphBuilder.userNavHost(navController: NavHostController) {
     navigation(
         route = Graph.USER,
         startDestination = Screen.LoginScreen.route
-    ){
+    ) {
         composable(route = Screen.LoginScreen.route) {
             LoginScreen()
         }
         composable(route = Screen.RegistrationScreen.route) {
-            SignUpScreen()
+            SignUpScreen(
+                onSignUpClick = {
+                    navController.popBackStack()
+                    navController.navigate(Screen.VerificationScreen.route)
+                }
+            )
+        }
+        composable(route = Screen.VerificationScreen.route) {
+            VerificationScreen(
+                onContinueClick = {
+                    navController.popBackStack()
+                    navController.navigate(Graph.MAIN)
+                })
         }
     }
 }

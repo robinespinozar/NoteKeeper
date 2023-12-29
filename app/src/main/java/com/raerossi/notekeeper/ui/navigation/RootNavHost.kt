@@ -46,6 +46,6 @@ fun RootNavHost(navController: NavHostController) {
         composable(route = Graph.MAIN) {
             MainScreen()
         }
-        userNavHost()
+        userNavHost(navController)
     }
 }
