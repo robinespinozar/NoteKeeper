@@ -39,5 +39,8 @@ class LoginViewModel @Inject constructor(
     private fun validatePassword(password: String) = password.length > 6
 
     fun onLoginSelected() {
+        _isLoading.value = true
+
+        _isLoading.value = false
     }
 }

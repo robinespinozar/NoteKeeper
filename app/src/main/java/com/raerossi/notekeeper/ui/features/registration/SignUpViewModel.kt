@@ -27,6 +27,9 @@ class SignUpViewModel @Inject constructor(
     private val _showErrorDialog = MutableLiveData<Boolean>()
     val showErrorDialog: LiveData<Boolean> = _showErrorDialog
 
+    private val _messageError = MutableLiveData<String>()
+    val messageError: LiveData<String> = _messageError
+
     fun onSignUpSelected(signUpUser: SignUpUser, toVerifyEmail: () -> Unit) {
         val uiState = signUpUser.toSignUpUiState()
         if (uiState.validateUser()) {
@@ -42,15 +45,25 @@ class SignUpViewModel @Inject constructor(
 
     private fun createAccount(signUpUser: SignUpUser, toVerifyEmail: () -> Unit) {
         viewModelScope.launch {
-            _uiState.value = SignUpUiState(isLoading = false)
-            val isCreationSuccessful = createAccountUseCase(signUpUser)
-            if (isCreationSuccessful) toVerifyEmail() else _showErrorDialog.value = true
             _uiState.value = SignUpUiState(isLoading = true)
+            try{
+                val isCreationSuccessful = createAccountUseCase(signUpUser)
+                if (isCreationSuccessful) toVerifyEmail() else _showErrorDialog.value = true
+            }
+            catch (e: Exception){
+                _showErrorDialog.value = true
+                _messageError.value = e.message.orEmpty()
+            }
+            _uiState.value = SignUpUiState(isLoading = false)
         }
     }
 
     fun onSignUpUserChanged(signUpUser: SignUpUser) {
         _signUpUser.value = signUpUser
+    }
+
+    fun hideErrorDialog(){
+        _showErrorDialog.value = false
     }
 
     private fun validateName(name: String) =

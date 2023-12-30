@@ -7,4 +7,5 @@ data class SignUpCallBacks(
     val onTwitterClick: () -> Unit,
     val onGmailClick: () -> Unit,
     val onFaceBookClick: () -> Unit,
+    val onErrorDialog: () -> Unit
 )

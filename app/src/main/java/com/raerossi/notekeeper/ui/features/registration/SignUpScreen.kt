@@ -31,8 +31,10 @@ import com.raerossi.notekeeper.ui.features.login.ImageAndNameLogo
 import com.raerossi.notekeeper.ui.features.login.LoginDivider
 import com.raerossi.notekeeper.ui.features.login.SocialLogin
 import com.raerossi.notekeeper.ui.features.utils.EmailInputField
+import com.raerossi.notekeeper.ui.features.utils.ErrorDialog
 import com.raerossi.notekeeper.ui.features.utils.GradientButton
 import com.raerossi.notekeeper.ui.features.utils.LinkButton
+import com.raerossi.notekeeper.ui.features.utils.LoadingScreen
 import com.raerossi.notekeeper.ui.features.utils.PasswordInputField
 import com.raerossi.notekeeper.ui.features.utils.TextInputField
 import com.raerossi.notekeeper.ui.features.utils.VerticalSpacer
@@ -45,15 +47,20 @@ fun SignUpScreen(
 ) {
     val signUpUser by signUpViewModel.signUpUser.observeAsState(SignUpUser())
     val uiState by signUpViewModel.uiState.collectAsState()
+    val showErrorDialog by signUpViewModel.showErrorDialog.observeAsState(false)
+    val messageError by signUpViewModel.messageError.observeAsState("")
 
     SignUpScreen(
         signUpUser = signUpUser,
         uiState = uiState,
+        showErrorDialog = showErrorDialog,
+        messageError = messageError,
         callBacks = SignUpCallBacks(
             onSignUpUserChanged = { signUpViewModel.onSignUpUserChanged(it) },
             onSignUpClick = {
                 signUpViewModel.onSignUpSelected(it, toVerifyEmail = { onSignUpClick() })
             },
+            onErrorDialog = { signUpViewModel.hideErrorDialog() },
             onLogInClick = {},
             onTwitterClick = {},
             onGmailClick = {},
@@ -66,23 +73,34 @@ fun SignUpScreen(
 fun SignUpScreen(
     signUpUser: SignUpUser,
     uiState: SignUpUiState,
-    callBacks: SignUpCallBacks
+    callBacks: SignUpCallBacks,
+    showErrorDialog: Boolean,
+    messageError: String
 ) {
-    Box(
-        Modifier
-            .fillMaxSize()
-            .background(Color(0xFFFFFFFF))
-    ) {
-        SignUpHeader(modifier = Modifier.align(Alignment.TopCenter))
-        SignUpBody(
-            modifier = Modifier.align(Alignment.Center),
-            signUpUser = signUpUser,
-            uiState = uiState,
-            callBacks = callBacks
-        )
-        SignUpFooter(
-            modifier = Modifier.align(Alignment.BottomCenter),
-            onLogInClick = { callBacks.onLogInClick() })
+    if (uiState.isLoading) {
+        LoadingScreen()
+    } else {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(Color(0xFFFFFFFF))
+        ) {
+            SignUpHeader(modifier = Modifier.align(Alignment.TopCenter))
+            SignUpBody(
+                modifier = Modifier.align(Alignment.Center),
+                signUpUser = signUpUser,
+                uiState = uiState,
+                callBacks = callBacks
+            )
+            SignUpFooter(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                onLogInClick = { callBacks.onLogInClick() })
+            ErrorDialog(
+                show = showErrorDialog,
+                message = messageError,
+                onDissmis = { callBacks.onErrorDialog() }
+            )
+        }
     }
 }
 

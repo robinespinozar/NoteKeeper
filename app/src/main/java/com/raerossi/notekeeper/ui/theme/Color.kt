@@ -74,12 +74,14 @@ val md_theme_error_color = Color(0xFFFF170A)
 //Refs
 val md_theme_ref_primary20 = Color(0xFF003A02)
 val md_theme_ref_primary30 = Color(0xFF005304)
+val md_theme_ref_primary40 = Color(0xFF006E08)
 val md_theme_ref_primary50 = Color(0xFF008B0D)
 val md_theme_ref_primary70 = Color(0xFF41C43A)
 
 val md_theme_ref_tertiary95 = Color(0xFFCAF9FD)
 
 val md_theme_ref_neutral95 = Color(0xFFF1F1EB)
+val md_theme_ref_neutralVariant30 = Color(0xFF424940)
 val md_theme_ref_neutralVariant40 = Color(0xFF5A6057)
 val md_theme_ref_neutralVariant80 = Color(0xFFC2C9BD)
 val md_theme_ref_neutralVariant90 = Color(0xFFDEE5D9)
