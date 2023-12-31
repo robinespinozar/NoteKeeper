@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.raerossi.notekeeper.R
 import com.raerossi.notekeeper.ui.features.utils.EmailInputField
+import com.raerossi.notekeeper.ui.features.utils.ErrorDialog
 import com.raerossi.notekeeper.ui.features.utils.GradientButton
 import com.raerossi.notekeeper.ui.features.utils.HorizontalSpacer
 import com.raerossi.notekeeper.ui.features.utils.InputField
@@ -52,26 +53,28 @@ import com.raerossi.notekeeper.ui.theme.generalSansFamily
 import com.raerossi.notekeeper.ui.theme.primaryGradient
 
 @Composable
-fun LoginScreen(loginViewModel: LoginViewModel = hiltViewModel()) {
+fun LoginScreen(
+    loginViewModel: LoginViewModel = hiltViewModel(),
+    onLoginClick: (Boolean) -> Unit
+) {
     val email by loginViewModel.email.observeAsState("")
     val password by loginViewModel.password.observeAsState("")
     val isLoginEnabled by loginViewModel.isLoginEnabled.observeAsState(false)
     val isLoading by loginViewModel.isLoading.observeAsState(false)
+    val showErrorDialog by loginViewModel.showErrorDialog.observeAsState(false)
+    val messageError by loginViewModel.messageError.observeAsState("")
 
     LoginScreen(
         email = email,
         password = password,
         isLoginEnabled = isLoginEnabled,
         isLoading = isLoading,
+        showErrorDialog = showErrorDialog,
+        messageError = messageError,
         onLoginChanged = { email, password -> loginViewModel.onLoginChanged(email, password) },
-        onLoginClick = {
-            loginViewModel.onLoginSelected(
-                email = email,
-                password = password,
-                toHome = {},
-                toVerifyEmail = {})
-        },
-        onSignUpClick = { }
+        onLoginClick = { loginViewModel.onLoginSelected(email, password) { onLoginClick(it) } },
+        onSignUpClick = { },
+        onErrorDialog = { loginViewModel.hideErrorDialog() }
     )
 }
 
@@ -81,6 +84,9 @@ fun LoginScreen(
     password: String,
     isLoginEnabled: Boolean,
     isLoading: Boolean,
+    showErrorDialog: Boolean,
+    messageError: String,
+    onErrorDialog: () -> Unit,
     onLoginChanged: (String, String) -> Unit,
     onLoginClick: () -> Unit,
     onSignUpClick: () -> Unit
@@ -105,6 +111,11 @@ fun LoginScreen(
             LoginFooter(
                 modifier = Modifier.align(Alignment.BottomCenter),
                 onSignUpClick = { onSignUpClick() }
+            )
+            ErrorDialog(
+                show = showErrorDialog,
+                message = messageError,
+                onDissmis = { onErrorDialog() }
             )
         }
     }
@@ -301,6 +312,6 @@ fun LoginFooter(
 @Composable
 fun LoginScreenPreviews() {
     NoteKeeperTheme {
-        LoginScreen()
+        LoginScreen {}
     }
 }

@@ -39,7 +39,12 @@ fun NavGraphBuilder.userNavHost(navController: NavHostController) {
         startDestination = Screen.LoginScreen.route
     ) {
         composable(route = Screen.LoginScreen.route) {
-            LoginScreen()
+            LoginScreen(
+                onLoginClick = { isUserVerified ->
+                    navController.popBackStack()
+                    if (isUserVerified) navController.navigate(Graph.MAIN) else navController.navigate(Screen.VerificationScreen.route)
+                }
+            )
         }
         composable(route = Screen.RegistrationScreen.route) {
             SignUpScreen(

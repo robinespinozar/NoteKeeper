@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.raerossi.notekeeper.R
 import com.raerossi.notekeeper.data.remote.LoginResult
 import com.raerossi.notekeeper.domain.usecases.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,31 +32,45 @@ class LoginViewModel @Inject constructor(
     private val _showErrorDialog = MutableLiveData<Boolean>()
     val showErrorDialog: LiveData<Boolean> = _showErrorDialog
 
+    private val _messageError = MutableLiveData<String>()
+    val messageError: LiveData<String> = _messageError
+
     fun onLoginChanged(email: String, password: String) {
         _email.value = email
         _password.value = password
         _isLoginEnabled.value = enableLogin(email, password)
     }
 
-    fun onLoginSelected(
-        email: String,
-        password: String,
-        toHome: () -> Unit,
-        toVerifyEmail: () -> Unit
-    ) {
+    fun onLoginSelected(email: String, password: String, toNextScreen: (Boolean) -> Unit) {
         viewModelScope.launch {
             _isLoading.value = true
-            val loginResult = loginUseCase(email, password)
-            when (loginResult) {
-                LoginResult.Error -> {
-                    _showErrorDialog.value = true
-                }
-                is LoginResult.Success -> {
-                    if (loginResult.verified) toHome() else toVerifyEmail()
-                }
+            try {
+                login(email, password) { toNextScreen(it) }
+            } catch (e: Exception) {
+                _showErrorDialog.value = true
+                _messageError.value = e.message.orEmpty()
             }
             _isLoading.value = false
         }
+    }
+
+    private suspend fun login(email: String, password: String, toNextScreen: (Boolean) -> Unit) {
+        val loginResult = loginUseCase(email, password)
+        when (loginResult) {
+            LoginResult.Error -> {
+                _showErrorDialog.value = true
+                _messageError.value = "Check the data or try again."
+                _isLoading.value = false
+            }
+            is LoginResult.Success -> {
+                val isVerified = loginResult.verified
+                toNextScreen(isVerified)
+            }
+        }
+    }
+
+    fun hideErrorDialog() {
+        _showErrorDialog.value = false
     }
 
     private fun enableLogin(email: String, password: String) =

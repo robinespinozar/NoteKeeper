@@ -15,12 +15,13 @@ import com.raerossi.notekeeper.ui.theme.title
 @Composable
 fun ErrorDialog(
     show: Boolean,
-    message: String = "An unexpected error has occurred",
+    title: String = "Advertisement",
+    message: String = "An unexpected error has occurred.",
     onDissmis: () -> Unit
 ) {
     if (show) {
         AlertDialog(
-            title = { Text(text = "Advertisement", style = MaterialTheme.typography.titleLarge) },
+            title = { Text(text = title, style = MaterialTheme.typography.titleLarge) },
             text = { Text(text = message, style = MaterialTheme.typography.bodyMedium) },
             titleContentColor = MaterialTheme.colorScheme.title,
             textContentColor = MaterialTheme.colorScheme.neutralVariant30,
