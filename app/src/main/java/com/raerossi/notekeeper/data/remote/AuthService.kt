@@ -46,4 +46,22 @@ class AuthService @Inject constructor(
         firebaseAuth.currentUser?.reload()?.await()
         return firebaseAuth.currentUser?.isEmailVerified ?: false
     }
+
+    suspend fun login(email: String, password: String): LoginResult {
+        return runCatching {
+            firebaseAuth.signInWithEmailAndPassword(email, password).await()
+        }.toLoginResult()
+    }
+
+    private fun Result<AuthResult>.toLoginResult(): LoginResult {
+        val result = this.getOrNull()
+        return when (result) {
+            null -> LoginResult.Error
+            else -> {
+                val userId = result.user
+                checkNotNull(userId)
+                LoginResult.Success(result.user?.isEmailVerified ?: false)
+            }
+        }
+    }
 }

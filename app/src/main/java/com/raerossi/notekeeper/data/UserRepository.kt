@@ -3,6 +3,7 @@ package com.raerossi.notekeeper.data
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
 import com.raerossi.notekeeper.data.remote.AuthService
+import com.raerossi.notekeeper.data.remote.LoginResult
 import com.raerossi.notekeeper.data.remote.UserService
 import com.raerossi.notekeeper.ui.features.registration.SignUpUser
 import kotlinx.coroutines.flow.Flow
@@ -25,4 +26,8 @@ class UserRepository @Inject constructor(
     }
 
     val isVerifiedAccount: Flow<Boolean> = apiAuth.isVerifiedAccount
+
+    suspend fun login(email: String, password: String): LoginResult {
+        return apiAuth.login(email, password)
+    }
 }

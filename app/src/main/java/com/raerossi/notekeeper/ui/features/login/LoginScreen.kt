@@ -44,6 +44,7 @@ import com.raerossi.notekeeper.ui.features.utils.GradientButton
 import com.raerossi.notekeeper.ui.features.utils.HorizontalSpacer
 import com.raerossi.notekeeper.ui.features.utils.InputField
 import com.raerossi.notekeeper.ui.features.utils.LinkButton
+import com.raerossi.notekeeper.ui.features.utils.LoadingScreen
 import com.raerossi.notekeeper.ui.features.utils.PasswordInputField
 import com.raerossi.notekeeper.ui.features.utils.VerticalSpacer
 import com.raerossi.notekeeper.ui.theme.NoteKeeperTheme
@@ -55,13 +56,21 @@ fun LoginScreen(loginViewModel: LoginViewModel = hiltViewModel()) {
     val email by loginViewModel.email.observeAsState("")
     val password by loginViewModel.password.observeAsState("")
     val isLoginEnabled by loginViewModel.isLoginEnabled.observeAsState(false)
+    val isLoading by loginViewModel.isLoading.observeAsState(false)
 
     LoginScreen(
         email = email,
         password = password,
         isLoginEnabled = isLoginEnabled,
+        isLoading = isLoading,
         onLoginChanged = { email, password -> loginViewModel.onLoginChanged(email, password) },
-        onLoginClick = { loginViewModel.onLoginSelected() },
+        onLoginClick = {
+            loginViewModel.onLoginSelected(
+                email = email,
+                password = password,
+                toHome = {},
+                toVerifyEmail = {})
+        },
         onSignUpClick = { }
     )
 }
@@ -71,28 +80,33 @@ fun LoginScreen(
     email: String,
     password: String,
     isLoginEnabled: Boolean,
+    isLoading: Boolean,
     onLoginChanged: (String, String) -> Unit,
     onLoginClick: () -> Unit,
     onSignUpClick: () -> Unit
 ) {
-    Box(
-        Modifier
-            .fillMaxSize()
-            .background(Color(0xFFFFFFFF))
-    ) {
-        LoginHeader(modifier = Modifier.align(Alignment.TopCenter))
-        LoginBody(
-            modifier = Modifier.align(Alignment.Center),
-            email = email,
-            password = password,
-            isLoginEnabled = isLoginEnabled,
-            onLoginChanged = { email, password -> onLoginChanged(email, password) },
-            onLoginSelected = { onLoginClick() }
-        )
-        LoginFooter(
-            modifier = Modifier.align(Alignment.BottomCenter),
-            onSignUpClick = { onSignUpClick() }
-        )
+    if (isLoading) {
+        LoadingScreen()
+    } else {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(Color(0xFFFFFFFF))
+        ) {
+            LoginHeader(modifier = Modifier.align(Alignment.TopCenter))
+            LoginBody(
+                modifier = Modifier.align(Alignment.Center),
+                email = email,
+                password = password,
+                isLoginEnabled = isLoginEnabled,
+                onLoginChanged = { email, password -> onLoginChanged(email, password) },
+                onLoginSelected = { onLoginClick() }
+            )
+            LoginFooter(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                onSignUpClick = { onSignUpClick() }
+            )
+        }
     }
 }
 
