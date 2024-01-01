@@ -43,7 +43,8 @@ import com.raerossi.notekeeper.ui.theme.primaryGradient
 @Composable
 fun SignUpScreen(
     signUpViewModel: SignUpViewModel = hiltViewModel(),
-    onSignUpClick: () -> Unit
+    onSignUpClick: () -> Unit,
+    onLogInClick: () -> Unit
 ) {
     val signUpUser by signUpViewModel.signUpUser.observeAsState(SignUpUser())
     val uiState by signUpViewModel.uiState.collectAsState()
@@ -61,7 +62,7 @@ fun SignUpScreen(
                 signUpViewModel.onSignUpSelected(it, toVerifyEmail = { onSignUpClick() })
             },
             onErrorDialog = { signUpViewModel.hideErrorDialog() },
-            onLogInClick = {},
+            onLogInClick = { onLogInClick() },
             onTwitterClick = {},
             onGmailClick = {},
             onFaceBookClick = {},
@@ -252,7 +253,7 @@ fun SignUpFooter(
     ) {
         LinkButton(
             modifier = Modifier.align(Alignment.BottomCenter),
-            textDescription = "Already have an account",
+            textDescription = "Already have an account?",
             textAction = "Log In",
             onClick = { onLogInClick() }
         )

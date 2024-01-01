@@ -16,7 +16,7 @@ import com.raerossi.notekeeper.ui.theme.title
 fun ErrorDialog(
     show: Boolean,
     title: String = "Advertisement",
-    message: String = "An unexpected error has occurred.",
+    message: String = "An unexpected error has occurred. Try Again.",
     onDissmis: () -> Unit
 ) {
     if (show) {

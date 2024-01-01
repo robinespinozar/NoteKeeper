@@ -9,6 +9,7 @@ import androidx.navigation.navigation
 import com.raerossi.notekeeper.ui.features.home.HomeScreen
 import com.raerossi.notekeeper.ui.features.login.LoginScreen
 import com.raerossi.notekeeper.ui.features.profile.ProfileScreen
+import com.raerossi.notekeeper.ui.features.reestablish.ReestablishScreen
 import com.raerossi.notekeeper.ui.features.registration.SignUpScreen
 import com.raerossi.notekeeper.ui.features.schedule.ScheduleScreen
 import com.raerossi.notekeeper.ui.features.verification.VerificationScreen
@@ -42,15 +43,29 @@ fun NavGraphBuilder.userNavHost(navController: NavHostController) {
             LoginScreen(
                 onLoginClick = { isUserVerified ->
                     navController.popBackStack()
-                    if (isUserVerified) navController.navigate(Graph.MAIN) else navController.navigate(Screen.VerificationScreen.route)
+                    if (isUserVerified) navController.navigate(Graph.MAIN) else navController.navigate(
+                        Screen.VerificationScreen.route
+                    )
+                },
+                onSignUpClick = {
+                    navController.popBackStack()
+                    navController.navigate(Screen.SignUpScreen.route)
+                },
+                onForgotPasswordClick = {
+                    navController.popBackStack()
+                    navController.navigate(Screen.ReestablishScreen.route)
                 }
             )
         }
-        composable(route = Screen.RegistrationScreen.route) {
+        composable(route = Screen.SignUpScreen.route) {
             SignUpScreen(
                 onSignUpClick = {
                     navController.popBackStack()
                     navController.navigate(Screen.VerificationScreen.route)
+                },
+                onLogInClick = {
+                    navController.popBackStack()
+                    navController.navigate(Screen.LoginScreen.route)
                 }
             )
         }
@@ -59,6 +74,13 @@ fun NavGraphBuilder.userNavHost(navController: NavHostController) {
                 onContinueClick = {
                     navController.popBackStack()
                     navController.navigate(Graph.MAIN)
+                })
+        }
+        composable(route = Screen.ReestablishScreen.route) {
+            ReestablishScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                    navController.navigate(Screen.LoginScreen.route)
                 })
         }
     }

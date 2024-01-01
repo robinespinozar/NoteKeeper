@@ -2,6 +2,7 @@ package com.raerossi.notekeeper.ui.features.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,21 +10,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
@@ -31,10 +30,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,19 +38,21 @@ import com.raerossi.notekeeper.ui.features.utils.EmailInputField
 import com.raerossi.notekeeper.ui.features.utils.ErrorDialog
 import com.raerossi.notekeeper.ui.features.utils.GradientButton
 import com.raerossi.notekeeper.ui.features.utils.HorizontalSpacer
-import com.raerossi.notekeeper.ui.features.utils.InputField
 import com.raerossi.notekeeper.ui.features.utils.LinkButton
 import com.raerossi.notekeeper.ui.features.utils.LoadingScreen
 import com.raerossi.notekeeper.ui.features.utils.PasswordInputField
 import com.raerossi.notekeeper.ui.features.utils.VerticalSpacer
-import com.raerossi.notekeeper.ui.theme.NoteKeeperTheme
 import com.raerossi.notekeeper.ui.theme.generalSansFamily
+import com.raerossi.notekeeper.ui.theme.primary40
 import com.raerossi.notekeeper.ui.theme.primaryGradient
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
     loginViewModel: LoginViewModel = hiltViewModel(),
-    onLoginClick: (Boolean) -> Unit
+    onLoginClick: (Boolean) -> Unit,
+    onSignUpClick: () -> Unit,
+    onForgotPasswordClick: () -> Unit,
 ) {
     val email by loginViewModel.email.observeAsState("")
     val password by loginViewModel.password.observeAsState("")
@@ -73,7 +70,8 @@ fun LoginScreen(
         messageError = messageError,
         onLoginChanged = { email, password -> loginViewModel.onLoginChanged(email, password) },
         onLoginClick = { loginViewModel.onLoginSelected(email, password) { onLoginClick(it) } },
-        onSignUpClick = { },
+        onSignUpClick = { onSignUpClick() },
+        onForgotPasswordClick = { onForgotPasswordClick() },
         onErrorDialog = { loginViewModel.hideErrorDialog() }
     )
 }
@@ -89,7 +87,8 @@ fun LoginScreen(
     onErrorDialog: () -> Unit,
     onLoginChanged: (String, String) -> Unit,
     onLoginClick: () -> Unit,
-    onSignUpClick: () -> Unit
+    onSignUpClick: () -> Unit,
+    onForgotPasswordClick: () -> Unit
 ) {
     if (isLoading) {
         LoadingScreen()
@@ -106,7 +105,8 @@ fun LoginScreen(
                 password = password,
                 isLoginEnabled = isLoginEnabled,
                 onLoginChanged = { email, password -> onLoginChanged(email, password) },
-                onLoginSelected = { onLoginClick() }
+                onLoginSelected = { onLoginClick() },
+                onForgotPasswordClick = { onForgotPasswordClick() }
             )
             LoginFooter(
                 modifier = Modifier.align(Alignment.BottomCenter),
@@ -142,7 +142,8 @@ fun LoginBody(
     password: String,
     isLoginEnabled: Boolean,
     onLoginChanged: (String, String) -> Unit,
-    onLoginSelected: () -> Unit
+    onLoginSelected: () -> Unit,
+    onForgotPasswordClick: () -> Unit
 ) {
     Column(modifier = modifier.padding(start = 16.dp, end = 16.dp, bottom = 64.dp)) {
         ImageAndNameLogo(Modifier.align(Alignment.CenterHorizontally))
@@ -151,7 +152,7 @@ fun LoginBody(
         VerticalSpacer(8)
         Password(password) { onLoginChanged(email, it) }
         VerticalSpacer(8)
-        ForgotPassword(Modifier.align(Alignment.End))
+        ForgotPassword(Modifier.align(Alignment.End)) { onForgotPasswordClick() }
         VerticalSpacer(16)
         LoginButton(isLoginEnabled) { onLoginSelected() }
         VerticalSpacer(32)
@@ -199,7 +200,7 @@ private fun Password(
 }
 
 @Composable
-private fun ForgotPassword(modifier: Modifier = Modifier) {
+private fun ForgotPassword(modifier: Modifier = Modifier, onClick: () -> Unit) {
     Text(
         text = "Forgot password?",
         fontSize = 12.sp,
@@ -208,7 +209,7 @@ private fun ForgotPassword(modifier: Modifier = Modifier) {
         lineHeight = 24.sp,
         letterSpacing = 0.15.sp,
         color = Color(0xFF006E08),
-        modifier = modifier
+        modifier = modifier.clickable { onClick() }
     )
 }
 
@@ -301,17 +302,9 @@ fun LoginFooter(
     ) {
         LinkButton(
             modifier = Modifier.align(Alignment.BottomCenter),
-            textDescription = "Don´t have an account",
+            textDescription = "Don´t have an account?",
             textAction = "Sign Up",
             onClick = { onSignUpClick() }
         )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreviews() {
-    NoteKeeperTheme {
-        LoginScreen {}
     }
 }

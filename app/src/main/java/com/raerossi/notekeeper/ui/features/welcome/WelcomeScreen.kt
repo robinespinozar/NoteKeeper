@@ -45,7 +45,7 @@ import com.raerossi.notekeeper.ui.theme.secondaryGradient
 fun WelcomeScreen(
     welcomeViewModel: WelcomeViewModel = hiltViewModel(),
     onLogInClick: () -> Unit,
-    onRegistrationClick: () -> Unit
+    onSignUpClick: () -> Unit
 ) {
     SetSystemColors(colorStatusBar = Color(0xFFFFFFFF))
     val pages = listOf(OnBoardingPage.First, OnBoardingPage.Second, OnBoardingPage.Third)
@@ -58,9 +58,9 @@ fun WelcomeScreen(
             welcomeViewModel.updateOnBoardingState(completed = true)
             onLogInClick()
         },
-        onRegistrationClick = {
+        onSignUpClick = {
             welcomeViewModel.updateOnBoardingState(completed = true)
-            onRegistrationClick()
+            onSignUpClick()
         }
     )
 }
@@ -71,7 +71,7 @@ fun OnBoardingScreen(
     pages: List<OnBoardingPage>,
     pagerState: PagerState,
     onLogInClick: () -> Unit,
-    onRegistrationClick: () -> Unit
+    onSignUpClick: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         HorizontalPager(
@@ -95,7 +95,7 @@ fun OnBoardingScreen(
             modifier = Modifier.weight(2f),
             pagerState = pagerState,
             onLogInClick = { onLogInClick() },
-            onRegistrationClick = { onRegistrationClick() }
+            onSignUpClick = { onSignUpClick() }
         )
     }
 }
@@ -130,7 +130,7 @@ fun FinishButtons(
     modifier: Modifier = Modifier,
     pagerState: PagerState,
     onLogInClick: () -> Unit,
-    onRegistrationClick: () -> Unit
+    onSignUpClick: () -> Unit
 ) {
     Row(
         modifier = modifier.padding(horizontal = 16.dp),
@@ -146,7 +146,7 @@ fun FinishButtons(
                     text = "Sign Up",
                     textColor = Color.White,
                     gradient = MaterialTheme.colorScheme.primaryGradient,
-                    onClick = { onRegistrationClick() }
+                    onClick = { onSignUpClick() }
                 )
                 VerticalSpacer(16)
                 GradientButton(

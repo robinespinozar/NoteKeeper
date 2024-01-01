@@ -1,5 +1,6 @@
 package com.raerossi.notekeeper.data.remote
 
+import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -63,5 +64,15 @@ class AuthService @Inject constructor(
                 LoginResult.Success(result.user?.isEmailVerified ?: false)
             }
         }
+    }
+
+    suspend fun resetPassword(email: String): Boolean {
+        return runCatching {
+            firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
+                if(task.isSuccessful){
+                    Log.d("recoverpassword","Email sent.")
+                }
+            }
+        }.isSuccess
     }
 }

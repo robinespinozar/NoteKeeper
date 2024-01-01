@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.raerossi.notekeeper.R
 import com.raerossi.notekeeper.data.remote.LoginResult
 import com.raerossi.notekeeper.domain.usecases.LoginUseCase
+import com.raerossi.notekeeper.domain.usecases.RecoverPasswordUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -62,6 +63,7 @@ class LoginViewModel @Inject constructor(
                 _messageError.value = "Check the data or try again."
                 _isLoading.value = false
             }
+
             is LoginResult.Success -> {
                 val isVerified = loginResult.verified
                 toNextScreen(isVerified)

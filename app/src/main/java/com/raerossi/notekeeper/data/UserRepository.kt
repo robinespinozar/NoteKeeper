@@ -30,4 +30,8 @@ class UserRepository @Inject constructor(
     suspend fun login(email: String, password: String): LoginResult {
         return apiAuth.login(email, password)
     }
+
+    suspend fun resetPassword(email: String): Boolean {
+        return apiAuth.resetPassword(email)
+    }
 }

@@ -37,9 +37,9 @@ fun RootNavHost(navController: NavHostController) {
                     navController.popBackStack()
                     navController.navigate(Screen.LoginScreen.route)
                 },
-                onRegistrationClick = {
+                onSignUpClick = {
                     navController.popBackStack()
-                    navController.navigate(Screen.RegistrationScreen.route)
+                    navController.navigate(Screen.SignUpScreen.route)
                 }
             )
         }

@@ -96,18 +96,16 @@ val md_background_gradient = Brush.verticalGradient(
     )
 )
 
-val md_primary_gradient = Brush.verticalGradient(
+val md_primary_gradient = Brush.horizontalGradient(
     colors = listOf(
         Color(0xFF42C93C),
-        Color(0xFF48D640),
-        Color(0xFF42C93C)
+        Color(0xFF48D640)
     )
 )
 
-val md_secondary_gradient = Brush.verticalGradient(
+val md_secondary_gradient = Brush.horizontalGradient(
     colors = listOf(
         Color(0xFFF0F7FF),
-        Color(0xFFE7F2FF),
-        Color(0xFFF0F7FF)
+        Color(0xFFE7F2FF)
     )
 )
