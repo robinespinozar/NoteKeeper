@@ -17,6 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.raerossi.notekeeper.ui.theme.NoteKeeperTheme
 import com.raerossi.notekeeper.ui.theme.description
+import com.raerossi.notekeeper.ui.theme.description_dark
+import com.raerossi.notekeeper.ui.theme.description_light
 import com.raerossi.notekeeper.ui.theme.title
 
 object Sizes {
@@ -84,7 +86,7 @@ fun DescriptionText(
         modifier = Modifier.fillMaxWidth(),
         text = text,
         textAlign = alignment,
-        color = if (darkMode) Color.White else MaterialTheme.colorScheme.description,
+        color = if (darkMode) MaterialTheme.colorScheme.description_dark else MaterialTheme.colorScheme.description_light,
         style = if (size == Sizes.sizeBig) MaterialTheme.typography.bodySmall else MaterialTheme.typography.bodyMedium
     )
 }

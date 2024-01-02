@@ -71,6 +71,9 @@ val md_title = Color(0xFF0C212C)
 val md_theme_light_topBarContainer =  Color(0xFFFCFCFC)
 val md_theme_error_color = Color(0xFFFF170A)
 
+val md_theme_ref_description = Color(0xB35B6158)
+val md_theme_ref_description_darkmode = Color(0xB3FFFFFF)
+
 //Refs
 val md_theme_ref_primary20 = Color(0xFF003A02)
 val md_theme_ref_primary30 = Color(0xFF005304)

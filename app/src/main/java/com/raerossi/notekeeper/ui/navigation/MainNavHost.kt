@@ -43,9 +43,7 @@ fun NavGraphBuilder.userNavHost(navController: NavHostController) {
             LoginScreen(
                 onLoginClick = { isUserVerified ->
                     navController.popBackStack()
-                    if (isUserVerified) navController.navigate(Graph.MAIN) else navController.navigate(
-                        Screen.VerificationScreen.route
-                    )
+                    if (isUserVerified) navController.navigate(Graph.MAIN) else navController.navigate(Screen.VerificationScreen.route)
                 },
                 onSignUpClick = {
                     navController.popBackStack()

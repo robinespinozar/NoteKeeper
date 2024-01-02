@@ -28,6 +28,7 @@ import com.raerossi.notekeeper.ui.features.utils.EmailInputField
 import com.raerossi.notekeeper.ui.features.utils.GradientButton
 import com.raerossi.notekeeper.ui.features.utils.VerticalSpacer
 import com.raerossi.notekeeper.ui.theme.backgroundGradient
+import com.raerossi.notekeeper.ui.theme.description_dark
 import com.raerossi.notekeeper.ui.theme.primary20
 import com.raerossi.notekeeper.ui.theme.primaryGradient
 import com.raerossi.notekeeper.ui.theme.secondaryGradient
@@ -138,7 +139,7 @@ fun ReestablishDescription(modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxWidth(),
         text = "Provide your account's email for which you\n" + "want to reset your password.",
         style = MaterialTheme.typography.bodySmall,
-        color = Color.White,
+        color = MaterialTheme.colorScheme.description_dark,
         textAlign = TextAlign.Center
     )
 }

@@ -15,8 +15,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             NoteKeeperTheme {
                 NoteKeeperApp()
-                //SignUpScreen(){}
-                //VerificationScreen{}
             }
         }
     }
