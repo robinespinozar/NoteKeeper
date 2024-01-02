@@ -34,4 +34,8 @@ class UserRepository @Inject constructor(
     suspend fun resetPassword(email: String): Boolean {
         return apiAuth.resetPassword(email)
     }
+
+    suspend fun isEmailRegistred(email: String): Boolean {
+        return apiUser.isEmailRegistred(email)
+    }
 }

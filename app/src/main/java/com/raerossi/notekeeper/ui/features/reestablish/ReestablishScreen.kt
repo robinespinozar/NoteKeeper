@@ -26,12 +26,14 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.raerossi.notekeeper.R
 import com.raerossi.notekeeper.ui.features.utils.EmailInputField
 import com.raerossi.notekeeper.ui.features.utils.GradientButton
+import com.raerossi.notekeeper.ui.features.utils.LoadingScreen
 import com.raerossi.notekeeper.ui.features.utils.VerticalSpacer
 import com.raerossi.notekeeper.ui.theme.backgroundGradient
 import com.raerossi.notekeeper.ui.theme.description_dark
 import com.raerossi.notekeeper.ui.theme.primary20
 import com.raerossi.notekeeper.ui.theme.primaryGradient
 import com.raerossi.notekeeper.ui.theme.secondaryGradient
+import com.raerossi.notekeeper.ui.theme.tertiary95
 
 @Composable
 fun ReestablishScreen(
@@ -41,10 +43,12 @@ fun ReestablishScreen(
     val context = LocalContext.current
     val email by reestablishViewModel.email.observeAsState("")
     val isValidEmail by reestablishViewModel.isValidEmail.observeAsState(true)
+    val isLoading by reestablishViewModel.isLoading.observeAsState(false)
 
     ReestablishScreen(
         email = email,
         isValidEmail = isValidEmail,
+        isLoading = isLoading,
         onEmailChanged = { reestablishViewModel.onEmailChanged(it) },
         onResetClick = {
             reestablishViewModel.recoverPassword(email) { result ->
@@ -61,27 +65,35 @@ fun ReestablishScreen(
     email: String,
     onEmailChanged: (String) -> Unit,
     isValidEmail: Boolean,
+    isLoading: Boolean,
     onResetClick: () -> Unit,
     onBackClick: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(brush = MaterialTheme.colorScheme.backgroundGradient)
-    ) {
-        ReestablishAnimation(
+    if (isLoading) {
+        LoadingScreen(
+            modifier = Modifier.background(brush = MaterialTheme.colorScheme.backgroundGradient),
+            color = MaterialTheme.colorScheme.tertiary95
+        )
+    } else {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(0.dp, 300.dp)
-        )
-        ReestablishDescription()
-        ReestablishContent(
-            email = email,
-            onEmailChanged = { onEmailChanged(it) },
-            isValidEmail = isValidEmail,
-            onResetClick = { onResetClick() },
-            onBackClick = { onBackClick() }
-        )
+                .fillMaxSize()
+                .background(brush = MaterialTheme.colorScheme.backgroundGradient)
+        ) {
+            ReestablishAnimation(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(0.dp, 300.dp)
+            )
+            ReestablishDescription()
+            ReestablishContent(
+                email = email,
+                onEmailChanged = { onEmailChanged(it) },
+                isValidEmail = isValidEmail,
+                onResetClick = { onResetClick() },
+                onBackClick = { onBackClick() }
+            )
+        }
     }
 }
 
@@ -144,4 +156,5 @@ fun ReestablishDescription(modifier: Modifier = Modifier) {
     )
 }
 
-private fun getResultMessage(result: Boolean) = if (result) "We sent an email to reset your password" else "We couldn't sent an reset email, please try again."
+private fun getResultMessage(result: Boolean) =
+    if (result) "We sent an email to reset your password" else "This account is not registered or couldn't sent a email."

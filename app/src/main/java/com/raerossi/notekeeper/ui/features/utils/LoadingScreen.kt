@@ -12,13 +12,15 @@ import androidx.compose.ui.graphics.Color
 import com.raerossi.notekeeper.ui.theme.primary70
 
 @Composable
-fun LoadingScreen(modifier: Modifier = Modifier) {
+fun LoadingScreen(
+    modifier: Modifier = Modifier.background(color = Color(0xFFFFFFFF)),
+    color: Color = MaterialTheme.colorScheme.primary70
+) {
     Box(
         modifier = modifier
-            .fillMaxSize()
-            .background(color = Color(0xFFFFFFFF)),
+            .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary70)
+        CircularProgressIndicator(color = color)
     }
 }

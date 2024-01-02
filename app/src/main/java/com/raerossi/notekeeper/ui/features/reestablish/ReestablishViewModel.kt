@@ -21,13 +21,18 @@ class ReestablishViewModel @Inject constructor(
     private val _isValidEmail = MutableLiveData<Boolean>()
     val isValidEmail: LiveData<Boolean> = _isValidEmail
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     fun onEmailChanged(email: String) {
         _email.value = email
     }
 
     fun recoverPassword(email: String, onSendResult: (Boolean) -> Unit) {
         viewModelScope.launch {
+            _isLoading.value = true
             if (validateEmail(email)) sendResetPassword(email) { onSendResult(it) } else _isValidEmail.value = false
+            _isLoading.value = false
         }
     }
 
