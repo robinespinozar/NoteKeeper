@@ -27,7 +27,9 @@ fun RootNavHost(navController: NavHostController) {
             SplashScreen(
                 toStartScreen = { onBoardingIsCompleted ->
                     navController.popBackStack()
-                    if (onBoardingIsCompleted) navController.navigate(Graph.MAIN) else navController.navigate(Screen.WelcomeScreen.route)
+                    if (onBoardingIsCompleted) navController.navigate(Graph.MAIN) else navController.navigate(
+                        Screen.WelcomeScreen.route
+                    )
                 }
             )
         }

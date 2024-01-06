@@ -45,7 +45,7 @@ fun Modifier.largeShadow(): Modifier {
 
 fun Modifier.navigationShadow(): Modifier {
     return this.shadow(
-        color = Color.Black,
+        color = Color(0xFF6D856D),
         alpha = 0.15f,
         blurRadius = 4.dp,
         offsetX = 1.dp,

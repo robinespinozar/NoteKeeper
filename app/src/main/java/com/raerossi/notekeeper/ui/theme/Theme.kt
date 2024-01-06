@@ -82,6 +82,7 @@ private val DarkColorScheme = darkColorScheme(
     scrim = md_theme_dark_scrim,
 )
 
+val ColorScheme.background: Color @Composable get() = background
 val ColorScheme.title: Color @Composable get() = md_title
 val ColorScheme.description: Color @Composable get() = md_theme_ref_neutralVariant40
 val ColorScheme.description_light: Color @Composable get() = md_theme_ref_description
@@ -100,6 +101,7 @@ val ColorScheme.neutralVariant80: Color @Composable get() = md_theme_ref_neutral
 val ColorScheme.neutralVariant90: Color @Composable get() = md_theme_ref_neutralVariant90
 val ColorScheme.neutralVariant95: Color @Composable get() = md_theme_ref_neutralVariant95
 val ColorScheme.topBarContainer: Color @Composable get() = md_theme_light_topBarContainer
+val ColorScheme.bottomBarContainer: Color @Composable get() = md_theme_light_BottomBarContainer
 val ColorScheme.backgroundGradient: Brush @Composable get() = md_background_gradient
 val ColorScheme.primaryGradient: Brush @Composable get() = md_primary_gradient
 val ColorScheme.secondaryGradient: Brush @Composable get() = md_secondary_gradient
