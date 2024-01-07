@@ -53,6 +53,15 @@ fun Modifier.navigationShadow(): Modifier {
     )
 }
 
+fun Modifier.categoryShadow(): Modifier {
+    return this.shadow(
+        color = Color(0xFF6D856D),
+        alpha = 0.15f,
+        blurRadius = 24.dp,
+        offsetX = 0.dp,
+        offsetY = 8.dp
+    )
+}
 
 fun Modifier.shadow(
     color: Color = Color.White,

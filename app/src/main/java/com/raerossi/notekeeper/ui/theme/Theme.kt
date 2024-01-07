@@ -82,7 +82,8 @@ private val DarkColorScheme = darkColorScheme(
     scrim = md_theme_dark_scrim,
 )
 
-val ColorScheme.background: Color @Composable get() = background
+val ColorScheme.seed: Color @Composable get() = md_seed
+val ColorScheme.background: Color @Composable get() = md_background
 val ColorScheme.title: Color @Composable get() = md_title
 val ColorScheme.description: Color @Composable get() = md_theme_ref_neutralVariant40
 val ColorScheme.description_light: Color @Composable get() = md_theme_ref_description
