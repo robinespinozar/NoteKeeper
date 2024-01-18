@@ -1,4 +1,4 @@
-package com.raerossi.notekeeper.ui.features.utils
+package com.raerossi.notekeeper.ui.features.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState

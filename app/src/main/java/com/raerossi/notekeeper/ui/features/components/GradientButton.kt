@@ -1,4 +1,4 @@
-package com.raerossi.notekeeper.ui.features.utils
+package com.raerossi.notekeeper.ui.features.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -19,8 +19,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.raerossi.notekeeper.ui.features.welcome.OnBoardingPage
-import com.raerossi.notekeeper.ui.features.welcome.PagerScreen
 import com.raerossi.notekeeper.ui.theme.NoteKeeperTheme
 import com.raerossi.notekeeper.ui.theme.neutralVariant80
 import com.raerossi.notekeeper.ui.theme.neutralVariant95
@@ -52,7 +50,7 @@ fun GradientButton(
             modifier = if (enabled) Modifier
                 .fillMaxSize()
                 .background(gradient)
-                .then(modifier) else Modifier,
+                 else Modifier,
             contentAlignment = Alignment.Center,
         ) {
             Text(

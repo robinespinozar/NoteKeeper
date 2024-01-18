@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.raerossi.notekeeper.R
-import com.raerossi.notekeeper.ui.features.utils.SetSystemColors
+import com.raerossi.notekeeper.ui.features.components.SetSystemColors
 import com.raerossi.notekeeper.ui.theme.backgroundGradient
 import kotlinx.coroutines.delay
 

@@ -1,4 +1,4 @@
-package com.raerossi.notekeeper.ui.features.utils
+package com.raerossi.notekeeper.ui.features.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -9,14 +9,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Icon
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,8 +28,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,6 +46,9 @@ fun InputField(
     modifier: Modifier = Modifier,
     textLabel: String,
     maxLines: Int = 1,
+    height: Int = 56,
+    enabled: Boolean = true,
+    readOnly: Boolean = false,
     trailingIcon: @Composable (() -> Unit)? = null,
     singleLine: Boolean = true,
     textPlaceHolder: String,
@@ -63,6 +64,7 @@ fun InputField(
     BasicTextField(
         modifier = modifier
             .getTextFieldModifiers(
+                height = height,
                 isFocused = isFocused,
                 isEmpty = !text.isNotEmpty(),
                 focusedIndicatorColor = if (isError) inputFieldColors.errorIndicatorColor else inputFieldColors.focusedIndicatorColor,
@@ -71,7 +73,8 @@ fun InputField(
             .onFocusChanged { focusState -> isFocused = focusState.isFocused },
         value = text,
         onValueChange = { newText -> onTextChanged(newText) },
-        enabled = true,
+        enabled = enabled,
+        readOnly = readOnly,
         singleLine = singleLine,
         maxLines = maxLines,
         visualTransformation = visualTransformation,
@@ -128,6 +131,7 @@ fun SupportText(
 @Composable
 fun TextLabel(textLabel: String, textPlaceHolder: String, isEmpty: Boolean, isFocused: Boolean) {
     Text(
+        modifier = Modifier.padding(top = 2.dp),
         text = if (isFocused || !isEmpty) textLabel else textPlaceHolder,
         style = if (isFocused) MaterialTheme.typography.labelSmall else MaterialTheme.typography.bodySmall
     )
@@ -153,20 +157,19 @@ fun ConfigureTextFieldValues(
     trailingIcon: @Composable () -> Unit,
     innerTextField: @Composable () -> Unit,
     inputFieldColors: InputFieldColors
-) = TextFieldDefaults.TextFieldDecorationBox(
+) = TextFieldDefaults.DecorationBox(
     value = text,
     innerTextField = innerTextField,
-    singleLine = true,
     enabled = true,
-    isError = isError,
+    singleLine = true,
     visualTransformation = VisualTransformation.None,
+    interactionSource = interactionSource,
+    isError = isError,
     label = { TextLabel(textLabel, textPlaceHolder, !text.isNotEmpty(), isFocused) },
     placeholder = { TextPlaceHolder(textPlaceHolder) },
-    interactionSource = interactionSource,
-    contentPadding = TextFieldDefaults.textFieldWithLabelPadding(top = 22.dp),
-    colors = getTextFieldColors(!text.isNotEmpty(), inputFieldColors),
     trailingIcon = { trailingIcon() },
-    shape = getTextFieldShape()
+    shape = getTextFieldShape(),
+    colors = getTextFieldColors(!text.isNotEmpty(), inputFieldColors)
 )
 
 fun Modifier.customFocusedIndicator(
@@ -185,6 +188,7 @@ fun Modifier.customFocusedIndicator(
 
 @SuppressLint("ModifierFactoryUnreferencedReceiver")
 fun Modifier.getTextFieldModifiers(
+    height: Int,
     isFocused: Boolean,
     isEmpty: Boolean,
     focusedIndicatorColor: Color,
@@ -192,7 +196,7 @@ fun Modifier.getTextFieldModifiers(
 ): Modifier {
     return then(
         fillMaxWidth()
-            .height(56.dp)
+            .height(height.dp)
             .clip(RoundedCornerShape(12.dp))
             .customFocusedIndicator(isFocused, focusedIndicatorColor)
             .border(
@@ -209,14 +213,18 @@ fun getTextFieldColors(
     isEmpty: Boolean,
     inputFieldColors: InputFieldColors
 ) =
-    TextFieldDefaults.textFieldColors(
-        textColor = inputFieldColors.contentColor,
-        containerColor = inputFieldColors.containerColor,
+    TextFieldDefaults.colors(
+        focusedTextColor = inputFieldColors.contentColor,
+        unfocusedTextColor = inputFieldColors.contentColor,
+        focusedContainerColor = inputFieldColors.containerColor,
+        unfocusedContainerColor = inputFieldColors.containerColor,
         focusedIndicatorColor = inputFieldColors.focusedIndicatorColor,
         unfocusedIndicatorColor = inputFieldColors.unfocusedIndicatorColor,
         focusedLabelColor = inputFieldColors.focusedLabelColor,
         unfocusedLabelColor = if (isEmpty) inputFieldColors.unfocusedEmptyLabelColor else inputFieldColors.unfocusedLabelColor,
-        placeholderColor = inputFieldColors.placeholderColor,
+        focusedPlaceholderColor = inputFieldColors.placeholderColor,
+        unfocusedPlaceholderColor = inputFieldColors.placeholderColor,
+        errorContainerColor = inputFieldColors.containerColor,
         errorCursorColor = inputFieldColors.errorCursorColor,
         errorIndicatorColor = inputFieldColors.errorIndicatorColor,
         errorLabelColor = inputFieldColors.errorLabelColor
@@ -247,6 +255,7 @@ fun getDefaultApplicationColors() = InputFieldColors(
     errorSupportColor = MaterialTheme.colorScheme.errorColor,
     supportColor = MaterialTheme.colorScheme.neutralVariant40
 )
+
 
 @Preview(showBackground = true)
 @Composable

@@ -70,9 +70,13 @@ val md_seed = Color(0xFF55D64A)
 val md_background = Color(0xFFFFFFFF)
 val md_title = Color(0xFF0C212C)
 val md_theme_light_topBarContainer =  Color(0xFFFCFCFC)
+val md_theme_light_onTopBarContainer =  Color(0xFF1A1C1D)
 val md_theme_light_BottomBarContainer =  Color(0xFFFAFAFA)
 val md_theme_error_color = Color(0xFFFF170A)
 
+
+val md_disabled_label = Color(0xFF94AB96)
+val md_disabled_placeholder = Color(0xFF809182)
 val md_theme_ref_description = Color(0xB35B6158)
 val md_theme_ref_description_darkmode = Color(0xB3FFFFFF)
 
@@ -80,7 +84,9 @@ val md_theme_ref_description_darkmode = Color(0xB3FFFFFF)
 val md_theme_ref_primary20 = Color(0xFF003A02)
 val md_theme_ref_primary30 = Color(0xFF005304)
 val md_theme_ref_primary40 = Color(0xFF006E08)
+val md_theme_ref_primary40_alpha40 = Color(0x66006E07)
 val md_theme_ref_primary50 = Color(0xFF008B0D)
+val md_theme_ref_primary60 = Color(0xFF1CA71E)
 val md_theme_ref_primary70 = Color(0xFF41C43A)
 
 val md_theme_ref_tertiary95 = Color(0xFFCAF9FD)
@@ -91,6 +97,9 @@ val md_theme_ref_neutralVariant40 = Color(0xFF5A6057)
 val md_theme_ref_neutralVariant80 = Color(0xFFC2C9BD)
 val md_theme_ref_neutralVariant90 = Color(0xFFDEE5D9)
 val md_theme_ref_neutralVariant95 = Color(0xFFECF3E7)
+
+val md_theme_ref_surfaceContainerHighest = Color(0xFFE2E3DD)
+val md_theme_ref_surfaceContainerHigh = Color(0xFFE8E9E2)
 
 //Gradients
 val md_background_gradient = Brush.verticalGradient(

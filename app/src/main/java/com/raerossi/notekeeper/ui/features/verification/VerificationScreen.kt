@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,7 +17,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieAnimation
@@ -27,11 +25,10 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.raerossi.notekeeper.R
-import com.raerossi.notekeeper.ui.features.utils.GradientButton
-import com.raerossi.notekeeper.ui.features.utils.LinkButton
-import com.raerossi.notekeeper.ui.features.utils.TitleAndDescription
-import com.raerossi.notekeeper.ui.features.utils.VerticalSpacer
-import com.raerossi.notekeeper.ui.theme.NoteKeeperTheme
+import com.raerossi.notekeeper.ui.features.components.GradientButton
+import com.raerossi.notekeeper.ui.features.components.LinkButton
+import com.raerossi.notekeeper.ui.features.components.TitleAndDescription
+import com.raerossi.notekeeper.ui.features.components.VerticalSpacer
 import com.raerossi.notekeeper.ui.theme.backgroundGradient
 import com.raerossi.notekeeper.ui.theme.primary20
 import com.raerossi.notekeeper.ui.theme.secondaryGradient

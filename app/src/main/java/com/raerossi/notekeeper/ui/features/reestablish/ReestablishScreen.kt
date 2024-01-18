@@ -24,10 +24,10 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.raerossi.notekeeper.R
-import com.raerossi.notekeeper.ui.features.utils.EmailInputField
-import com.raerossi.notekeeper.ui.features.utils.GradientButton
-import com.raerossi.notekeeper.ui.features.utils.LoadingScreen
-import com.raerossi.notekeeper.ui.features.utils.VerticalSpacer
+import com.raerossi.notekeeper.ui.features.components.EmailInputField
+import com.raerossi.notekeeper.ui.features.components.GradientButton
+import com.raerossi.notekeeper.ui.features.components.LoadingScreen
+import com.raerossi.notekeeper.ui.features.components.VerticalSpacer
 import com.raerossi.notekeeper.ui.theme.backgroundGradient
 import com.raerossi.notekeeper.ui.theme.description_dark
 import com.raerossi.notekeeper.ui.theme.primary20

@@ -12,6 +12,7 @@ import com.raerossi.notekeeper.ui.features.profile.ProfileScreen
 import com.raerossi.notekeeper.ui.features.reestablish.ReestablishScreen
 import com.raerossi.notekeeper.ui.features.registration.SignUpScreen
 import com.raerossi.notekeeper.ui.features.schedule.ScheduleScreen
+import com.raerossi.notekeeper.ui.features.task.TaskScreen
 import com.raerossi.notekeeper.ui.features.verification.VerificationScreen
 
 @Composable
@@ -22,7 +23,12 @@ fun MainNavHost(navController: NavHostController) {
         startDestination = NavBarItem.HomeScreen.route
     ) {
         composable(route = NavBarItem.HomeScreen.route) {
-            HomeScreen()
+            HomeScreen(
+                onAddClick = {
+                    navController.popBackStack()
+                    navController.navigate(Screen.TaskScreen.route)
+                }
+            )
         }
         composable(route = NavBarItem.ScheduleScreen.route) {
             ScheduleScreen()
@@ -31,6 +37,7 @@ fun MainNavHost(navController: NavHostController) {
             ProfileScreen()
         }
         userNavHost(navController)
+        taskNavHost(navController)
     }
 }
 
@@ -80,6 +87,17 @@ fun NavGraphBuilder.userNavHost(navController: NavHostController) {
                     navController.popBackStack()
                     navController.navigate(Screen.LoginScreen.route)
                 })
+        }
+    }
+}
+
+fun NavGraphBuilder.taskNavHost(navController: NavHostController) {
+    navigation(
+        route = Graph.TASK,
+        startDestination = Screen.TaskScreen.route
+    ) {
+        composable(route = Screen.TaskScreen.route) {
+          TaskScreen()
         }
     }
 }

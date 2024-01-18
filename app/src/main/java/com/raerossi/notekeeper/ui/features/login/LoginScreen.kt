@@ -12,17 +12,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
@@ -34,18 +28,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.raerossi.notekeeper.R
-import com.raerossi.notekeeper.ui.features.utils.EmailInputField
-import com.raerossi.notekeeper.ui.features.utils.ErrorDialog
-import com.raerossi.notekeeper.ui.features.utils.GradientButton
-import com.raerossi.notekeeper.ui.features.utils.HorizontalSpacer
-import com.raerossi.notekeeper.ui.features.utils.LinkButton
-import com.raerossi.notekeeper.ui.features.utils.LoadingScreen
-import com.raerossi.notekeeper.ui.features.utils.PasswordInputField
-import com.raerossi.notekeeper.ui.features.utils.VerticalSpacer
+import com.raerossi.notekeeper.ui.features.components.EmailInputField
+import com.raerossi.notekeeper.ui.features.components.ErrorDialog
+import com.raerossi.notekeeper.ui.features.components.GradientButton
+import com.raerossi.notekeeper.ui.features.components.HorizontalSpacer
+import com.raerossi.notekeeper.ui.features.components.LinkButton
+import com.raerossi.notekeeper.ui.features.components.LoadingScreen
+import com.raerossi.notekeeper.ui.features.components.PasswordInputField
+import com.raerossi.notekeeper.ui.features.components.VerticalSpacer
 import com.raerossi.notekeeper.ui.theme.generalSansFamily
-import com.raerossi.notekeeper.ui.theme.primary40
 import com.raerossi.notekeeper.ui.theme.primaryGradient
-import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(

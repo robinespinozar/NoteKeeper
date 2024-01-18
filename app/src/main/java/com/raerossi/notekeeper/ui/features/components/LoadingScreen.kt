@@ -1,4 +1,4 @@
-package com.raerossi.notekeeper.ui.features.utils
+package com.raerossi.notekeeper.ui.features.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

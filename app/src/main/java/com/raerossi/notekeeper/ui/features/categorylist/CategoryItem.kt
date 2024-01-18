@@ -1,7 +1,6 @@
 package com.raerossi.notekeeper.ui.features.categorylist
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,8 +25,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.raerossi.notekeeper.R
 import com.raerossi.notekeeper.domain.Category
-import com.raerossi.notekeeper.ui.features.utils.VerticalSpacer
-import com.raerossi.notekeeper.ui.features.utils.categoryShadow
+import com.raerossi.notekeeper.ui.features.components.VerticalSpacer
+import com.raerossi.notekeeper.ui.features.components.categoryShadow
 import com.raerossi.notekeeper.ui.theme.NoteKeeperTheme
 import com.raerossi.notekeeper.ui.theme.neutralVariant90
 import com.raerossi.notekeeper.ui.theme.neutralVariant95

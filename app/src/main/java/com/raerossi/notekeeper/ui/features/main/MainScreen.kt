@@ -3,10 +3,8 @@ package com.raerossi.notekeeper.ui.features.main
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,7 +17,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -29,8 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.raerossi.notekeeper.ui.features.utils.SetSystemColors
-import com.raerossi.notekeeper.ui.features.utils.navigationShadow
+import com.raerossi.notekeeper.ui.features.components.SetSystemColors
+import com.raerossi.notekeeper.ui.features.components.navigationShadow
 import com.raerossi.notekeeper.ui.navigation.MainNavHost
 import com.raerossi.notekeeper.ui.navigation.NavBarItem
 import com.raerossi.notekeeper.ui.theme.bottomBarContainer

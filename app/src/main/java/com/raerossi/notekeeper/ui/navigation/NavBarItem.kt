@@ -11,19 +11,19 @@ sealed class NavBarItem(
     @StringRes val labelRes: Int
 ) {
     object HomeScreen : NavBarItem(
-        route = "home_screen",
+        route = Screen.HomeScreen.route,
         unselectedIcon = R.drawable.ic_home,
         selectedIcon = R.drawable.ic_home_filled,
         labelRes = R.string.home
     )
     object ScheduleScreen : NavBarItem(
-        route = "schedule_screen",
+        route = Screen.ScheduleScreen.route,
         unselectedIcon = R.drawable.ic_schedule,
         selectedIcon = R.drawable.ic_schedule_filled,
         labelRes = R.string.schedule
     )
     object ProfileScreen : NavBarItem(
-        route = "profile_screen",
+        route = Screen.ProfileScreen.route,
         unselectedIcon = R.drawable.ic_profile,
         selectedIcon = R.drawable.ic_profile_filled,
         labelRes = R.string.profile

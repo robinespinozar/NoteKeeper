@@ -1,4 +1,4 @@
-package com.raerossi.notekeeper.ui.features.utils
+package com.raerossi.notekeeper.ui.features.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
@@ -18,6 +18,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.raerossi.notekeeper.ui.theme.errorColor
+import com.raerossi.notekeeper.ui.theme.primary40_alpha40
 
 @Composable
 fun PasswordInputField(
@@ -44,7 +45,7 @@ fun PasswordInputField(
             ) {
                 Icon(
                     imageVector = if (passwordVisibility) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
-                    tint = if (isError) MaterialTheme.colorScheme.errorColor else MaterialTheme.colorScheme.outlineVariant,
+                    tint = if (isError) MaterialTheme.colorScheme.errorColor else MaterialTheme.colorScheme.primary40_alpha40,
                     contentDescription = "show password"
                 )
             }
@@ -80,6 +81,8 @@ fun TextInputField(
     textLabel: String,
     textPlaceHolder: String,
     textSupport: String? = null,
+    height: Int = 56,
+    maxLines: Int = 1,
     isError: Boolean = false,
     onTextChanged: (String) -> Unit
 ) {
@@ -91,6 +94,8 @@ fun TextInputField(
         textSupport = textSupport,
         textLabel = textLabel,
         textPlaceHolder = textPlaceHolder,
+        height = height,
+        maxLines = maxLines,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
     )
 }

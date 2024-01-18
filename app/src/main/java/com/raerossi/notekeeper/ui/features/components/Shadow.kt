@@ -1,10 +1,7 @@
-package com.raerossi.notekeeper.ui.features.utils
+package com.raerossi.notekeeper.ui.features.components
 
 import android.graphics.BlurMaskFilter
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
@@ -15,7 +12,7 @@ import androidx.compose.ui.unit.dp
 
 fun Modifier.smallShadow(): Modifier {
     return this.shadow(
-        color = Color(0xFF6E7877),
+        color = Color(0xFFA5B2A4),
         alpha = 0.15f,
         blurRadius = 32.dp,
         offsetY = 24.dp,

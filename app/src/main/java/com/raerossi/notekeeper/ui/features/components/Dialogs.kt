@@ -1,4 +1,4 @@
-package com.raerossi.notekeeper.ui.features.utils
+package com.raerossi.notekeeper.ui.features.components
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
@@ -8,7 +8,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.raerossi.notekeeper.ui.theme.neutralVariant30
-import com.raerossi.notekeeper.ui.theme.primary30
 import com.raerossi.notekeeper.ui.theme.primary40
 import com.raerossi.notekeeper.ui.theme.title
 

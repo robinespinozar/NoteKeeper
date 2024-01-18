@@ -1,19 +1,15 @@
 package com.raerossi.notekeeper.ui.features.welcome
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,11 +24,11 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
-import com.raerossi.notekeeper.ui.features.utils.GradientButton
-import com.raerossi.notekeeper.ui.features.utils.PagerIndicator
-import com.raerossi.notekeeper.ui.features.utils.SetSystemColors
-import com.raerossi.notekeeper.ui.features.utils.TitleAndDescription
-import com.raerossi.notekeeper.ui.features.utils.VerticalSpacer
+import com.raerossi.notekeeper.ui.features.components.GradientButton
+import com.raerossi.notekeeper.ui.features.components.PagerIndicator
+import com.raerossi.notekeeper.ui.features.components.SetSystemColors
+import com.raerossi.notekeeper.ui.features.components.TitleAndDescription
+import com.raerossi.notekeeper.ui.features.components.VerticalSpacer
 import com.raerossi.notekeeper.ui.theme.NoteKeeperTheme
 import com.raerossi.notekeeper.ui.theme.neutralVariant90
 import com.raerossi.notekeeper.ui.theme.primary20
