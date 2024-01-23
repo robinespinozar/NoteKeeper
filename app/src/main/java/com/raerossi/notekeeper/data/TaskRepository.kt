@@ -1,4 +1,8 @@
 package com.raerossi.notekeeper.data
 
-class TaskRepository {
+import javax.inject.Inject
+
+class TaskRepository @Inject constructor(
+
+) {
 }

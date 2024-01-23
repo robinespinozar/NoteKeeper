@@ -50,7 +50,9 @@ fun NavGraphBuilder.userNavHost(navController: NavHostController) {
             LoginScreen(
                 onLoginClick = { isUserVerified ->
                     navController.popBackStack()
-                    if (isUserVerified) navController.navigate(Graph.MAIN) else navController.navigate(Screen.VerificationScreen.route)
+                    if (isUserVerified) navController.navigate(Graph.MAIN) else navController.navigate(
+                        Screen.VerificationScreen.route
+                    )
                 },
                 onSignUpClick = {
                     navController.popBackStack()
@@ -97,7 +99,10 @@ fun NavGraphBuilder.taskNavHost(navController: NavHostController) {
         startDestination = Screen.TaskScreen.route
     ) {
         composable(route = Screen.TaskScreen.route) {
-          TaskScreen()
+            TaskScreen(
+                onBackClick = {},
+                onTaskHandlerClick = {}
+            )
         }
     }
 }

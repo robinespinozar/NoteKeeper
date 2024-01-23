@@ -1,5 +1,6 @@
 package com.raerossi.notekeeper.ui.features.task
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -9,21 +10,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDefaults
-import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,58 +26,108 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.raerossi.notekeeper.domain.Category
+import com.raerossi.notekeeper.domain.Task
+import com.raerossi.notekeeper.ui.features.components.BasicTextInputField
 import com.raerossi.notekeeper.ui.features.components.DateSelector
 import com.raerossi.notekeeper.ui.features.components.DropDownMenu
 import com.raerossi.notekeeper.ui.features.components.GradientButton
-import com.raerossi.notekeeper.ui.features.components.HorizontalSpacer
-import com.raerossi.notekeeper.ui.features.components.TextExposedInputField
+import com.raerossi.notekeeper.ui.features.components.LoadingScreen
 import com.raerossi.notekeeper.ui.features.components.TimeSelector
 import com.raerossi.notekeeper.ui.features.components.TitleTopBar
 import com.raerossi.notekeeper.ui.features.components.VerticalSpacer
+import com.raerossi.notekeeper.ui.features.components.toItem
 import com.raerossi.notekeeper.ui.theme.NoteKeeperTheme
 import com.raerossi.notekeeper.ui.theme.generalSansFamily
-import com.raerossi.notekeeper.ui.theme.neutralVariant30
-import com.raerossi.notekeeper.ui.theme.neutralVariant40
-import com.raerossi.notekeeper.ui.theme.neutralVariant80
-import com.raerossi.notekeeper.ui.theme.primary40
 import com.raerossi.notekeeper.ui.theme.primary50
-import com.raerossi.notekeeper.ui.theme.primary70
 import com.raerossi.notekeeper.ui.theme.primaryGradient
-import com.raerossi.notekeeper.ui.theme.seed
-import com.raerossi.notekeeper.ui.theme.surfaceContainerHigh
-import com.raerossi.notekeeper.ui.theme.title
+import com.raerossi.notekeeper.utils.extensions.toCalendar
+import com.raerossi.notekeeper.utils.extensions.toLocalTime
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaskScreen() {
-    Scaffold(topBar = { TitleTopBar(title = "Add New Task", onBackClick = {}) }) {
+fun TaskScreen(
+    taskViewModel: TaskViewModel = hiltViewModel(),
+    onBackClick: () -> Unit,
+    onTaskHandlerClick: () -> Unit
+) {
+    val task by taskViewModel.task.observeAsState(Task())
+    val uiState by taskViewModel.uiState.collectAsState()
+    val categories by taskViewModel.listCategories.observeAsState(emptyList())
+
+    TaskScreen(
+        task = task,
+        uiState = uiState,
+        categories = categories,
+        callBacks = TaskCallBacks(
+            onBackClick = {},
+            onTaskHandlerClick = {},
+            onTaskChanged = { taskViewModel.onTaskChanged(it) }
+        )
+    )
+}
+
+@Composable
+fun TaskScreen(
+    task: Task,
+    uiState: TaskUiState,
+    categories: List<Category>,
+    callBacks: TaskCallBacks
+) {
+    Scaffold(topBar = {
+        TitleTopBar(
+            title = "Add New Task",
+            onBackClick = { callBacks.onBackClick() })
+    }) {
         Column(modifier = Modifier.padding(it)) {
-            TaskContent()
+            if (uiState.isLoading) {
+                LoadingScreen()
+            } else {
+                TaskContent(
+                    task = task,
+                    uiState = uiState,
+                    categories = categories,
+                    callBacks = callBacks
+                )
+            }
         }
     }
 }
 
 @Composable
-fun TaskContent() {
+fun TaskContent(
+    task: Task,
+    uiState: TaskUiState,
+    categories: List<Category>,
+    callBacks: TaskCallBacks
+) {
     Column(
         Modifier
             .fillMaxSize()
             .padding(top = 32.dp, start = 16.dp, end = 16.dp)
             .background(Color.White)
     ) {
-        Title("") {}
+        Title(
+            title = task.title,
+            isValidTitle = uiState.isValidTitle
+        ) { callBacks.onTaskChanged(task.copy(title = it)) }
         VerticalSpacer(16)
-        Description("") {}
+        Description(description = task.description) { callBacks.onTaskChanged(task.copy(description = it)) }
         VerticalSpacer(16)
-        Date("") {}
+        Date(date = task.date) { callBacks.onTaskChanged(task.copy(date = it)) }
         VerticalSpacer(16)
-        Time("", "") {}
+        Time(
+            startTime = task.startTime,
+            endTime = task.endTime,
+            onStartTimeChanged = { callBacks.onTaskChanged(task.copy(startTime = it)) },
+            onEndTimeChanged = { callBacks.onTaskChanged(task.copy(endTime = it)) }
+        )
         VerticalSpacer(16)
-        Category()
+        Category(categories) { callBacks.onTaskChanged(task.copy(category = it)) }
         VerticalSpacer(8)
         AddNewCategory(Modifier.align(Alignment.End)) {}
         Spacer(modifier = Modifier.weight(1f))
-        TaskHandlerButton() {}
+        TaskHandlerButton { callBacks.onTaskHandlerClick(task.copy()) }
     }
 }
 
@@ -100,14 +145,16 @@ fun TaskHandlerButton(onClick: () -> Unit) {
 @Composable
 private fun Title(
     title: String,
+    isValidTitle: Boolean,
     onTextChanged: (String) -> Unit
 ) {
-    var text by remember { mutableStateOf("") }
-    TextExposedInputField(
-        text = text,
+    BasicTextInputField(
+        text = title,
         textLabel = "Title",
         textPlaceHolder = "Enter a title for the task",
-        onTextChanged = { text = it /*onTextChanged(it)*/ }
+        textSupport = if (!isValidTitle) "Enter a valid title" else null,
+        isError = !isValidTitle,
+        onTextChanged = { onTextChanged(it) }
     )
 }
 
@@ -116,7 +163,7 @@ private fun Description(
     description: String,
     onTextChanged: (String) -> Unit
 ) {
-    TextExposedInputField(
+    BasicTextInputField(
         text = description,
         textLabel = "Description",
         textPlaceHolder = "Enter a description for the task",
@@ -130,11 +177,16 @@ private fun Description(
 @Composable
 private fun Date(
     date: String,
-    onTextChanged: (String) -> Unit
+    onDateChanged: (String) -> Unit
 ) {
-    val dateState = rememberDatePickerState()
+    val dateState =
+        rememberDatePickerState(initialSelectedDateMillis = date.toCalendar().timeInMillis)
 
-    DateSelector(dateState) {}
+    DateSelector(
+        date = date,
+        dateState = dateState,
+        onDateChanged = { onDateChanged(it) }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -142,10 +194,20 @@ private fun Date(
 private fun Time(
     startTime: String,
     endTime: String,
-    onTextChanged: (String) -> Unit
+    onStartTimeChanged: (String) -> Unit,
+    onEndTimeChanged: (String) -> Unit
 ) {
-    val timeStartState = rememberTimePickerState(initialHour = 8, initialMinute = 0)
-    val timeEndState = rememberTimePickerState(initialHour = 9, initialMinute = 0)
+    val startLocalTime = startTime.toLocalTime()
+    val endLocalTime = endTime.toLocalTime()
+
+    val timeStartState = rememberTimePickerState(
+        initialHour = startLocalTime.hour,
+        initialMinute = startLocalTime.minute
+    )
+    val timeEndState = rememberTimePickerState(
+        initialHour = endLocalTime.hour,
+        initialMinute = endLocalTime.minute
+    )
 
     Row {
         Column {
@@ -155,7 +217,11 @@ private fun Time(
                 color = MaterialTheme.colorScheme.primary50
             )
             VerticalSpacer(8)
-            TimeSelector(timeState = timeStartState){}
+            TimeSelector(
+                time = startTime,
+                timeState = timeStartState,
+                onTimeChanged = { onStartTimeChanged(it) }
+            )
         }
         Spacer(modifier = Modifier.weight(1f))
         Column {
@@ -165,15 +231,24 @@ private fun Time(
                 color = MaterialTheme.colorScheme.primary50
             )
             VerticalSpacer(8)
-            TimeSelector(timeState = timeEndState){}
+            TimeSelector(
+                time = endTime,
+                timeState = timeEndState,
+                onTimeChanged = { onEndTimeChanged(it) }
+            )
         }
     }
 }
 
 @Composable
-fun Category() {
-    val categories = listOf("Work", "Gym", "Homework", "University")
-    DropDownMenu(textLabel = "Category", items = categories)
+fun Category(categories: List<Category>, onItemSelected: (Int) -> Unit) {
+    val items = categories.map { it.toItem() }
+
+    DropDownMenu(
+        textLabel = "Category",
+        items = items,
+        onItemSelected = { onItemSelected(it) }
+    )
 }
 
 @Composable
@@ -196,7 +271,7 @@ private fun AddNewCategory(modifier: Modifier = Modifier, onClick: () -> Unit) {
 fun TaskScreenPreview() {
     NoteKeeperTheme {
         Box(Modifier.fillMaxSize()) {
-            TaskScreen()
+            TaskScreen(onBackClick = {}, onTaskHandlerClick = {})
         }
     }
 }

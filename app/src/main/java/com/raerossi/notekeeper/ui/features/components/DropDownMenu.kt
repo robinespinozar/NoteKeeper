@@ -1,5 +1,6 @@
 package com.raerossi.notekeeper.ui.features.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -33,21 +34,26 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.raerossi.notekeeper.R
+import com.raerossi.notekeeper.domain.Category
 import com.raerossi.notekeeper.ui.theme.errorColor
 import com.raerossi.notekeeper.ui.theme.neutral95
 import com.raerossi.notekeeper.ui.theme.neutralVariant30
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDownMenu(modifier: Modifier = Modifier, textLabel: String, items: List<String>) {
-    var selectedText by rememberSaveable { mutableStateOf(items[0]) }
+fun DropDownMenu(
+    modifier: Modifier = Modifier,
+    textLabel: String,
+    items: List<Item>,
+    onItemSelected: (Int) -> Unit
+) {
+    var selectedItem by remember { mutableStateOf(items[0]) }
     var isExpanded by rememberSaveable { mutableStateOf(false) }
     var rowSize by remember { mutableStateOf(Size.Zero) }
 
     Column(modifier) {
         InputField(
-            text = selectedText,
-            onTextChanged = { selectedText = it },
+            text = selectedItem.name,
+            onTextChanged = { },
             textLabel = textLabel,
             textPlaceHolder = "",
             enabled = false,
@@ -81,10 +87,11 @@ fun DropDownMenu(modifier: Modifier = Modifier, textLabel: String, items: List<S
             items.forEach { item ->
                 DropdownMenuItem(
                     modifier = Modifier.padding(start = 8.dp),
-                    text = { Text(text = item, style = MaterialTheme.typography.labelSmall) },
+                    text = { Text(text = item.name, style = MaterialTheme.typography.labelSmall) },
                     onClick = {
                         isExpanded = false
-                        selectedText = item
+                        selectedItem = item
+                        onItemSelected(item.id)
                     },
                     colors = MenuDefaults.itemColors(
                         textColor = MaterialTheme.colorScheme.neutralVariant30

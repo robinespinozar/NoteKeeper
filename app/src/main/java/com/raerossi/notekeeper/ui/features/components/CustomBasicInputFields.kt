@@ -7,7 +7,7 @@ import androidx.compose.ui.text.input.KeyboardType
 
 
 @Composable
-fun TextExposedInputField(
+fun BasicTextInputField(
     modifier: Modifier = Modifier,
     text: String,
     textLabel: String? = null,
