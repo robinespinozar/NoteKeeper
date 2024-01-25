@@ -14,10 +14,10 @@ data class Category(
     val hexColor1: String,
     val hexColor2: String
 ) {
-    fun getCategoryBrush(): Brush {
+    fun getBrush(): Brush {
         val color1 = Color(hexColor1.toColorInt())
         val color2 = Color(hexColor2.toColorInt())
-        return Brush.horizontalGradient(colors = listOf(color1, color2))
+        return Brush.verticalGradient(colors = listOf(color1, color2))
     }
 }
 

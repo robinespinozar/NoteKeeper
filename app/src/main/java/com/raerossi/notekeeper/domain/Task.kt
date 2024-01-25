@@ -6,12 +6,8 @@ import java.time.LocalDate
 data class Task(
     val title: String = "",
     val description: String = "",
-    val date: String = getCurrentDate(),
+    val date: String = LocalDate.now().customFormat(),
     val startTime: String = "08:00",
     val endTime: String = "09:00",
-    val category: Int = 0
-) {
-
-}
-
-fun getCurrentDate() =  LocalDate.now().customFormat()
+    val category: Int = 1
+)

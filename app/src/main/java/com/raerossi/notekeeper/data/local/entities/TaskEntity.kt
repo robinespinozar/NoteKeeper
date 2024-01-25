@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.raerossi.notekeeper.data.local.Tables
-import com.raerossi.notekeeper.domain.getCurrentDate
+import com.raerossi.notekeeper.domain.Task
 import com.raerossi.notekeeper.utils.extensions.customFormat
 import java.time.LocalDate
 
@@ -18,4 +18,13 @@ data class TaskEntity(
     @ColumnInfo(name = "startTime") val startTime: String = "08:00",
     @ColumnInfo(name = "endTime") val endTime: String = "09:00",
     @ColumnInfo(name = "category") val category: Int = 0
+)
+
+fun Task.toDataBase() = TaskEntity(
+    title = this.title,
+    description = this.description,
+    date = this.date,
+    startTime = this.startTime,
+    endTime = this.endTime,
+    category = this.category
 )

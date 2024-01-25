@@ -32,6 +32,7 @@ import com.raerossi.notekeeper.domain.Task
 import com.raerossi.notekeeper.ui.features.components.BasicTextInputField
 import com.raerossi.notekeeper.ui.features.components.DateSelector
 import com.raerossi.notekeeper.ui.features.components.DropDownMenu
+import com.raerossi.notekeeper.ui.features.components.ErrorDialog
 import com.raerossi.notekeeper.ui.features.components.GradientButton
 import com.raerossi.notekeeper.ui.features.components.LoadingScreen
 import com.raerossi.notekeeper.ui.features.components.TimeSelector
@@ -60,9 +61,10 @@ fun TaskScreen(
         uiState = uiState,
         categories = categories,
         callBacks = TaskCallBacks(
-            onBackClick = {},
-            onTaskHandlerClick = {},
-            onTaskChanged = { taskViewModel.onTaskChanged(it) }
+            onBackClick = { onBackClick() },
+            onTaskHandlerClick = { taskViewModel.onTaskHandlerSelected(task = it, toHomeScreen = { onTaskHandlerClick() }) },
+            onTaskChanged = { taskViewModel.onTaskChanged(it) },
+            onErrorDialog = { taskViewModel.hideErrorDialog() }
         )
     )
 }
@@ -88,6 +90,12 @@ fun TaskScreen(
                     uiState = uiState,
                     categories = categories,
                     callBacks = callBacks
+                )
+                ErrorDialog(
+                    show = uiState.showErrorDialog,
+                    title = "Task Creation Failed",
+                    message = "Unable to create the task. Please check your input and try again. If the issue persists, contact support for assistance.",
+                    onDissmis = { callBacks.onErrorDialog() }
                 )
             }
         }

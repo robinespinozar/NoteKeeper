@@ -10,7 +10,7 @@ import com.raerossi.notekeeper.data.local.entities.TaskEntity
 interface TaskDao {
 
     @Insert
-    suspend fun insertTask(task: TaskEntity)
+    suspend fun insertTask(task: TaskEntity): Long
 
     @Query("Delete from " + Tables.TASK + " where id =:id")
     suspend fun deleteTask(id: Int)
